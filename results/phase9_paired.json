@@ -1,0 +1,1416 @@
+{
+  "8192": {
+    "n_truncated": 81,
+    "b_rescued": 11,
+    "c_damaged": 0,
+    "mcnemar_chi2": 9.09,
+    "p_value": 0.0026,
+    "acc_none": 46.7,
+    "acc_force": 55.8,
+    "acc_hybrid": 55.8,
+    "per_sample": [
+      {
+        "problem": 1,
+        "sample": 0,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 1176,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 1,
+        "sample": 1,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 588,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 1,
+        "sample": 2,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 1152,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 1,
+        "sample": 3,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 1176,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 4,
+        "sample": 0,
+        "truth": 279,
+        "had_boxed": true,
+        "before": 279,
+        "after": 279,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 4,
+        "sample": 1,
+        "truth": 279,
+        "had_boxed": true,
+        "before": 279,
+        "after": 279,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 4,
+        "sample": 2,
+        "truth": 279,
+        "had_boxed": true,
+        "before": 279,
+        "after": 279,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 4,
+        "sample": 3,
+        "truth": 279,
+        "had_boxed": true,
+        "before": 279,
+        "after": 279,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 6,
+        "sample": 0,
+        "truth": 821,
+        "had_boxed": true,
+        "before": 821,
+        "after": 821,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 6,
+        "sample": 1,
+        "truth": 821,
+        "had_boxed": false,
+        "before": null,
+        "after": 14,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 6,
+        "sample": 2,
+        "truth": 821,
+        "had_boxed": false,
+        "before": null,
+        "after": 141,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 6,
+        "sample": 3,
+        "truth": 821,
+        "had_boxed": false,
+        "before": null,
+        "after": 173,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 8,
+        "sample": 0,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 12,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 8,
+        "sample": 1,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 11,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 8,
+        "sample": 2,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 5,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 8,
+        "sample": 3,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 13,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 9,
+        "sample": 0,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 108,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 9,
+        "sample": 1,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 108,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 9,
+        "sample": 2,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 150,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 9,
+        "sample": 3,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 156,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 10,
+        "sample": 0,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 117,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 10,
+        "sample": 1,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 57,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 10,
+        "sample": 2,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 117,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 10,
+        "sample": 3,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 124,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 0,
+        "truth": 510,
+        "had_boxed": false,
+        "before": null,
+        "after": 150,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 1,
+        "truth": 510,
+        "had_boxed": false,
+        "before": null,
+        "after": 145,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 2,
+        "truth": 510,
+        "had_boxed": false,
+        "before": null,
+        "after": 1000,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 3,
+        "truth": 510,
+        "had_boxed": false,
+        "before": null,
+        "after": 68,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 0,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 145,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 1,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 187,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 2,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 104,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 3,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 149,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 0,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 119,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 1,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 115,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 2,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 176,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 3,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 126,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 0,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 625,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 1,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 627,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 2,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 625,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 3,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 625,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 17,
+        "sample": 0,
+        "truth": 82,
+        "had_boxed": false,
+        "before": null,
+        "after": 82,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 17,
+        "sample": 1,
+        "truth": 82,
+        "had_boxed": false,
+        "before": null,
+        "after": 82,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 17,
+        "sample": 2,
+        "truth": 82,
+        "had_boxed": false,
+        "before": null,
+        "after": 82,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 17,
+        "sample": 3,
+        "truth": 82,
+        "had_boxed": false,
+        "before": null,
+        "after": 82,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 18,
+        "sample": 1,
+        "truth": 106,
+        "had_boxed": true,
+        "before": 106,
+        "after": 106,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 18,
+        "sample": 2,
+        "truth": 106,
+        "had_boxed": true,
+        "before": 106,
+        "after": 106,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 19,
+        "sample": 0,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 360,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 19,
+        "sample": 1,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 360,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 19,
+        "sample": 2,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 180,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 19,
+        "sample": 3,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 120,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 22,
+        "sample": 0,
+        "truth": 610,
+        "had_boxed": false,
+        "before": null,
+        "after": 625,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 22,
+        "sample": 1,
+        "truth": 610,
+        "had_boxed": false,
+        "before": null,
+        "after": 860,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 22,
+        "sample": 2,
+        "truth": 610,
+        "had_boxed": false,
+        "before": null,
+        "after": 800,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 22,
+        "sample": 3,
+        "truth": 610,
+        "had_boxed": false,
+        "before": null,
+        "after": 610,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 23,
+        "sample": 0,
+        "truth": 149,
+        "had_boxed": true,
+        "before": 149,
+        "after": 149,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 23,
+        "sample": 1,
+        "truth": 149,
+        "had_boxed": false,
+        "before": null,
+        "after": 149,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 23,
+        "sample": 2,
+        "truth": 149,
+        "had_boxed": true,
+        "before": 149,
+        "after": 149,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 23,
+        "sample": 3,
+        "truth": 149,
+        "had_boxed": true,
+        "before": 149,
+        "after": 149,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 24,
+        "sample": 0,
+        "truth": 907,
+        "had_boxed": true,
+        "before": 907,
+        "after": 907,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 24,
+        "sample": 1,
+        "truth": 907,
+        "had_boxed": true,
+        "before": 907,
+        "after": 907,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 24,
+        "sample": 2,
+        "truth": 907,
+        "had_boxed": true,
+        "before": 907,
+        "after": 907,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 24,
+        "sample": 3,
+        "truth": 907,
+        "had_boxed": true,
+        "before": 907,
+        "after": 907,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 25,
+        "sample": 0,
+        "truth": 113,
+        "had_boxed": true,
+        "before": 113,
+        "after": 113,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 25,
+        "sample": 1,
+        "truth": 113,
+        "had_boxed": false,
+        "before": null,
+        "after": 113,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 25,
+        "sample": 2,
+        "truth": 113,
+        "had_boxed": true,
+        "before": 113,
+        "after": 113,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 25,
+        "sample": 3,
+        "truth": 113,
+        "had_boxed": false,
+        "before": null,
+        "after": 113,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 26,
+        "sample": 0,
+        "truth": 19,
+        "had_boxed": true,
+        "before": 19,
+        "after": 19,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 26,
+        "sample": 2,
+        "truth": 19,
+        "had_boxed": false,
+        "before": null,
+        "after": 19,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 26,
+        "sample": 3,
+        "truth": 19,
+        "had_boxed": false,
+        "before": null,
+        "after": 19,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 27,
+        "sample": 0,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": 667,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 27,
+        "sample": 1,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": 682,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 27,
+        "sample": 2,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": 627,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 27,
+        "sample": 3,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": 627,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 0,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 31,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 1,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 32448,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 2,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 98,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 3,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 365,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 0,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 188,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 1,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 188,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 2,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 174,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 3,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 180,
+        "before_ok": false,
+        "after_ok": false
+      }
+    ]
+  },
+  "16384": {
+    "n_truncated": 58,
+    "b_rescued": 9,
+    "c_damaged": 0,
+    "mcnemar_chi2": 7.11,
+    "p_value": 0.0077,
+    "acc_none": 63.3,
+    "acc_force": 70.8,
+    "acc_hybrid": 70.8,
+    "per_sample": [
+      {
+        "problem": 1,
+        "sample": 0,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 588,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 1,
+        "sample": 1,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 588,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 1,
+        "sample": 2,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 525,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 1,
+        "sample": 3,
+        "truth": 588,
+        "had_boxed": false,
+        "before": null,
+        "after": 588,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 6,
+        "sample": 0,
+        "truth": 821,
+        "had_boxed": true,
+        "before": 821,
+        "after": 821,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 6,
+        "sample": 1,
+        "truth": 821,
+        "had_boxed": false,
+        "before": null,
+        "after": 821,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 6,
+        "sample": 2,
+        "truth": 821,
+        "had_boxed": true,
+        "before": 821,
+        "after": 821,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 6,
+        "sample": 3,
+        "truth": 821,
+        "had_boxed": true,
+        "before": 821,
+        "after": 821,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 8,
+        "sample": 1,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 119,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 8,
+        "sample": 2,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 11,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 8,
+        "sample": 3,
+        "truth": 62,
+        "had_boxed": false,
+        "before": null,
+        "after": 62,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 9,
+        "sample": 0,
+        "truth": 81,
+        "had_boxed": true,
+        "before": 81,
+        "after": 81,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 9,
+        "sample": 1,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 147840,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 9,
+        "sample": 2,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 567,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 9,
+        "sample": 3,
+        "truth": 81,
+        "had_boxed": false,
+        "before": null,
+        "after": 126,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 10,
+        "sample": 0,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 124,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 10,
+        "sample": 1,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 259,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 10,
+        "sample": 2,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 259,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 10,
+        "sample": 3,
+        "truth": 259,
+        "had_boxed": false,
+        "before": null,
+        "after": 115,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 0,
+        "truth": 510,
+        "had_boxed": false,
+        "before": null,
+        "after": 149,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 1,
+        "truth": 510,
+        "had_boxed": false,
+        "before": null,
+        "after": 14,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 11,
+        "sample": 2,
+        "truth": 510,
+        "had_boxed": true,
+        "before": 510,
+        "after": 510,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 12,
+        "sample": 0,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 187,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 1,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 187,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 2,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 104,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 12,
+        "sample": 3,
+        "truth": 204,
+        "had_boxed": false,
+        "before": null,
+        "after": 154,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 0,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 124,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 1,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 124,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 2,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 148,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 13,
+        "sample": 3,
+        "truth": 60,
+        "had_boxed": false,
+        "before": null,
+        "after": 366,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 0,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 627,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 1,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 378,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 2,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 147,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 14,
+        "sample": 3,
+        "truth": 735,
+        "had_boxed": false,
+        "before": null,
+        "after": 625,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 17,
+        "sample": 0,
+        "truth": 82,
+        "had_boxed": true,
+        "before": 82,
+        "after": 82,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 19,
+        "sample": 0,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 336,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 19,
+        "sample": 1,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 360,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 19,
+        "sample": 2,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 360,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 19,
+        "sample": 3,
+        "truth": 336,
+        "had_boxed": false,
+        "before": null,
+        "after": 336,
+        "before_ok": false,
+        "after_ok": true
+      },
+      {
+        "problem": 22,
+        "sample": 0,
+        "truth": 610,
+        "had_boxed": true,
+        "before": 610,
+        "after": 610,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 22,
+        "sample": 1,
+        "truth": 610,
+        "had_boxed": true,
+        "before": 610,
+        "after": 610,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 22,
+        "sample": 2,
+        "truth": 610,
+        "had_boxed": true,
+        "before": 610,
+        "after": 610,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 24,
+        "sample": 0,
+        "truth": 907,
+        "had_boxed": true,
+        "before": 907,
+        "after": 907,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 24,
+        "sample": 2,
+        "truth": 907,
+        "had_boxed": true,
+        "before": 907,
+        "after": 907,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 25,
+        "sample": 3,
+        "truth": 113,
+        "had_boxed": true,
+        "before": 113,
+        "after": 113,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 26,
+        "sample": 3,
+        "truth": 19,
+        "had_boxed": true,
+        "before": 19,
+        "after": 19,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 27,
+        "sample": 0,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": null,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 27,
+        "sample": 1,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": 627,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 27,
+        "sample": 2,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": null,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 27,
+        "sample": 3,
+        "truth": 248,
+        "had_boxed": false,
+        "before": null,
+        "after": 627,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 0,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 49,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 1,
+        "truth": 104,
+        "had_boxed": true,
+        "before": 104,
+        "after": 104,
+        "before_ok": true,
+        "after_ok": true
+      },
+      {
+        "problem": 28,
+        "sample": 2,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 252,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 28,
+        "sample": 3,
+        "truth": 104,
+        "had_boxed": false,
+        "before": null,
+        "after": 49,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 0,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 188,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 1,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 108,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 2,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 378,
+        "before_ok": false,
+        "after_ok": false
+      },
+      {
+        "problem": 29,
+        "sample": 3,
+        "truth": 240,
+        "had_boxed": false,
+        "before": null,
+        "after": 180,
+        "before_ok": false,
+        "after_ok": false
+      }
+    ]
+  }
+}

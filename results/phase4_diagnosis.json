@@ -1,0 +1,57 @@
+{
+  "problem_id": "1",
+  "truth": 588,
+  "samples": [
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.5
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    },
+    {
+      "len": 16208,
+      "finished": false,
+      "pred": null,
+      "repetition": 0.0
+    }
+  ],
+  "finished": "0/8",
+  "avg_repetition": 0.062,
+  "minutes": 25.1
+}

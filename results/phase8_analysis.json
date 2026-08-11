@@ -1,0 +1,87 @@
+{
+  "fine_curve": [
+    {
+      "budget": 1024,
+      "acc": 3.3,
+      "trunc_pct": 100.0
+    },
+    {
+      "budget": 2048,
+      "acc": 13.3,
+      "trunc_pct": 98.3
+    },
+    {
+      "budget": 3072,
+      "acc": 23.3,
+      "trunc_pct": 92.5
+    },
+    {
+      "budget": 4096,
+      "acc": 30.0,
+      "trunc_pct": 87.5
+    },
+    {
+      "budget": 6144,
+      "acc": 38.3,
+      "trunc_pct": 77.5
+    },
+    {
+      "budget": 8192,
+      "acc": 46.7,
+      "trunc_pct": 67.5
+    },
+    {
+      "budget": 10240,
+      "acc": 51.7,
+      "trunc_pct": 63.3
+    },
+    {
+      "budget": 12288,
+      "acc": 56.7,
+      "trunc_pct": 59.2
+    },
+    {
+      "budget": 14336,
+      "acc": 58.3,
+      "trunc_pct": 53.3
+    },
+    {
+      "budget": 16384,
+      "acc": 63.3,
+      "trunc_pct": 48.3
+    }
+  ],
+  "forcing_ci": [
+    {
+      "budget": 4096,
+      "base": 27.5,
+      "forced": 40.8,
+      "gain": 13.3,
+      "ci_lo": 7.5,
+      "ci_hi": 20.0,
+      "recovery_pct": 15.3
+    },
+    {
+      "budget": 8192,
+      "base": 46.7,
+      "forced": 56.7,
+      "gain": 10.0,
+      "ci_lo": 5.0,
+      "ci_hi": 15.8,
+      "recovery_pct": 14.8
+    },
+    {
+      "budget": 16384,
+      "base": 63.3,
+      "forced": 70.8,
+      "gain": 7.5,
+      "ci_lo": 3.3,
+      "ci_hi": 12.5,
+      "recovery_pct": 15.5
+    }
+  ],
+  "lengths": {
+    "median": 16200,
+    "at_cap": 58
+  }
+}

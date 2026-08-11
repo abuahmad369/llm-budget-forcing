@@ -1,0 +1,65 @@
+{
+  "results": {
+    "8192_none": 46.7,
+    "8192_V1_bare": 55.8,
+    "8192_V3_deadline": 55.8,
+    "8192_V2_summarize": 56.7,
+    "16384_none": 63.3,
+    "16384_V1_bare": 70.8,
+    "16384_V3_deadline": 70.8,
+    "16384_V2_summarize": 70.8
+  },
+  "force_minutes": {
+    "8192_V1_bare": 21.2,
+    "8192_V3_deadline": 21.3,
+    "8192_V2_summarize": 47.8,
+    "16384_V1_bare": 54.9,
+    "16384_V3_deadline": 54.9,
+    "16384_V2_summarize": 117.3
+  },
+  "gen_minutes": 215.8,
+  "v2_examples": [
+    {
+      "problem": 1,
+      "truth": 588,
+      "summary": "  \n\n* The problem involves a triangle \\(ABC\\) with points \\(D,E\\) on \\(AB\\) and \\(F,G\\) on \\(AC\\).  \n* The lengths on the sides are given: \\(AD=4\\), \\(DE=16\\), \\(EB=8\\) (so \\(AB=28\\)), and \\(AF=13\\), \\(FG=52\\), \\(GC=26\\) (so \\(AC=91\\)).  \n* The quadrilateral \\(DEGF\\) has area \\(288\\).  \n\nKey observations and steps:\n\n1. **Area ratio for \\(DEGF\\)**:  \n   By using barycentric coordinates (or vector a",
+      "answer": "588}.",
+      "parsed": 588
+    },
+    {
+      "problem": 1,
+      "truth": 588,
+      "summary": "  \n\n- The problem involves a triangle \\(ABC\\) with points \\(D, E\\) on \\(AB\\) and \\(F, G\\) on \\(AC\\).  \n- The side lengths are: \\(AD = 4\\), \\(DE = 16\\), \\(EB = 8\\) (so \\(AB = 28\\)), and \\(AF = 13\\), \\(FG = 52\\), \\(GC = 26\\) (so \\(AC = 91\\)).  \n- The area of quadrilateral \\(DEGF\\) is given as \\(288\\).  \n\nKey steps taken:  \n\n1. **Choose a convenient coordinate system**:  \n   - Place \\(A\\) at the orig",
+      "answer": "588}.",
+      "parsed": 588
+    },
+    {
+      "problem": 1,
+      "truth": 588,
+      "summary": " \n\n- The problem involves a triangle \\(ABC\\) with points \\(D, E\\) on \\(AB\\) and \\(F, G\\) on \\(AC\\) with given distances.\n- Using barycentric coordinates, we expressed the points as linear combinations of the vertices.\n- The area of quadrilateral \\(DEGF\\) can be expressed as a simple multiple of the area of \\(\\triangle ABC\\).\n- We computed that multiple to be \\(\\frac{412}{637}\\).\n- Using the given ",
+      "answer": "504}.",
+      "parsed": 504
+    },
+    {
+      "problem": 1,
+      "truth": 588,
+      "summary": "  \n\n- The triangle \\(ABC\\) has side lengths \\(AB = 28\\) and \\(AC = 91\\).  \n- By placing \\(A\\) at the origin and \\(B\\) at \\((28,0)\\), we let \\(C = (c_x, c_y)\\).  \n- Using the given lengths on \\(AC\\), we find the coordinates of the points \\(F\\) and \\(G\\):  \n  \\[\n  F = \\Bigl(\\frac{13c_x}{91},\\,6\\Bigr),\\qquad G = \\Bigl(\\frac{65c_x}{91},\\,30\\Bigr).\n  \\]  \n- The reflections give \\(M = (2F - D) = \\bigl(\\",
+      "answer": "588}.",
+      "parsed": 588
+    },
+    {
+      "problem": 13,
+      "truth": 60,
+      "summary": "  \n\n- The problem involves a convex pentagon \\(ABCDE\\) with given side lengths and angles.  \n- By using the given side lengths and angles, we determined that triangles \\(ABC\\) and \\(ADE\\) are both \\(30^\\circ-60^\\circ-90^\\circ\\) right triangles.  \n- We placed the pentagon in a coordinate system: \\(B=(0,0)\\), \\(C=(7,0)\\), \\(A=(7,7\\sqrt3)\\).  \n- Using the distances \\(AC=7\\sqrt3\\), \\(AD=13\\sqrt3\\), an",
+      "answer": "124}.",
+      "parsed": 124
+    },
+    {
+      "problem": 13,
+      "truth": 60,
+      "summary": " \n\n- The problem reduces to finding the geometric median (Fermat\u2013Weber point) of a specific convex pentagon with given side lengths and angles.\n- By placing the pentagon in a coordinate system, we determined exact coordinates for all vertices.\n- The geometric median is the unique point where the sum of unit vectors directed from the point to each vertex is zero.\n- The minimal sum of distances is t",
+      "answer": "184}.",
+      "parsed": 184
+    }
+  ]
+}
