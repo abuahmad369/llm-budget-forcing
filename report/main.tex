@@ -12,7 +12,10 @@
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath}
+% newtxmath already defines \Bbbk; free the name before amssymb redefines it
+\let\Bbbk\relax
+\usepackage{amssymb}
 \usepackage{caption}
 \usepackage{array}
 \usepackage{multirow}
@@ -580,7 +583,8 @@ improvement. Table~\ref{tab:tools} lists the components.
 \caption{Software and hardware components}
 \label{tab:tools}
 \small
-\begin{tabular}{@{}p{2.6cm}p{4.0cm}p{3.0cm}p{4.2cm}@{}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\begin{tabular}{@{}L{2.3cm}L{3.5cm}L{3.0cm}L{5.6cm}@{}}
 \toprule
 \textbf{Tool} & \textbf{Function} & \textbf{Alternatives} & \textbf{Why selected} \\
 \midrule
@@ -594,11 +598,11 @@ free tier; imposes \texttt{float16} and rules out FlashAttention-2 \\
 VibeThinker-3B & Subject model & Qwen3-4B, Phi-4-mini & Frontier accuracy at 3B;
 published AIME 2025 score permits harness validation \\
 \addlinespace
-\texttt{math-ai/aime25} & Benchmark & AIME 2024, HMMT & Integer answers allow
-exact matching; matches a published reference number \\
+\texttt{math-ai/} \texttt{aime25} & Benchmark & AIME 2024, HMMT & Integer answers
+allow exact matching; matches a published reference number \\
 \addlinespace
-Kaggle Notebooks & Compute platform & Colab, Lambda Labs & 30 GPU-hours/week at
-no cost; batch execution survives disconnection \\
+Kaggle Notebooks & Compute platform & Colab, Lambda Labs & 30 GPU-hours per week
+at no cost; batch execution survives disconnection \\
 \bottomrule
 \end{tabular}
 \end{table}

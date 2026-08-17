@@ -17,3 +17,6 @@ Thumbs.db
 # scratch
 *.tmp
 scratch/
+
+# build artifact, regenerate with Compress-Archive
+report/overleaf_upload.zip
