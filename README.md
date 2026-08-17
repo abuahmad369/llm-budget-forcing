@@ -74,6 +74,31 @@ tokens**; the spike at the cap is our limit, not the model's natural stopping po
    | 8k  | 81 | 17 | 64 | 11 | 17.2% |
    | 16k | 58 | 14 | 44 |  9 | 20.5% |
 
+6. **Forcing beats the selection oracle at small budgets.** `pass@4` bounds any method
+   that *selects* among existing samples — CLR, majority voting, self-consistency.
+
+   | Budget | Unforced pass@4 (oracle) | Forced pass@1 |
+   |---|---|---|
+   | 4k  | 40.0% | **40.8%** |
+   | 8k  | 53.3% | **55.8%** |
+   | 16k | **73.3%** | 70.8% |
+
+   One forced sample beats the best of four unforced samples at 4k and 8k. Forcing
+   generates a new answer rather than choosing among existing ones, so it is not
+   bounded by pass@4.
+
+7. **Forcing captures ~80% of the recoverable signal**, so little headroom remains for
+   better extraction.
+
+   | Budget | Rescuable | Net ceiling | Rescued | Captured | 95% CI |
+   |---|---|---|---|---|---|
+   | 8k  | 64 | 14 | 11 | 78.6% | [52%, 92%] |
+   | 16k | 44 | 11 |  9 | 81.8% | [52%, 95%] |
+
+   Only ~25% of rescuable traces mention the correct answer anywhere in their final
+   20% — the other **75% never derived it**, and no extraction method could recover
+   those. **The bottleneck is generating the reasoning, not reading it out.**
+
 ### Mechanism
 
 Forcing recovers answers **already latent** in the trace. It cannot manufacture reasoning
@@ -157,6 +182,10 @@ Stated plainly, because they bound what these numbers mean.
   read our timings as a fundamental cost of the method.
 - **32k + forcing was not measured.** The trend (+13.3 → +9.1 → +7.5) suggests roughly +5,
   but this is an extrapolation, not a measurement.
+- **The extraction-ceiling population is small** (n=11–14), so the ~80% capture rate has a
+  wide interval, roughly [52%, 95%]. The direction is safe; the point estimate is not precise.
+- **Forced pass@4 was not computed**, so the oracle comparison in finding 6 is forced
+  pass@1 against unforced pass@4, not like-for-like.
 
 ---
 

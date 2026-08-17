@@ -1,6 +1,14 @@
 """Phase 11 - upper bounds. What ceiling is budget forcing actually chasing?
 
-Closes a gate: a recovery rate has no meaning without the maximum recoverable.
+WARNING: the `captured` figure printed by this script is WRONG. `ceil_box`
+turned out to equal the ALREADY-CORRECT set exactly (14 traces at 16k, matching
+right->right = 14 in phase 9), because no trace holds the answer in an early box
+but not the last one. So `captured` divided rescued-from-wrong by already-correct
+- disjoint sets. Use phase11b_ceiling.py instead.
+
+The pass@4 column IS valid and is the useful output here: it bounds any method
+that SELECTS among existing samples, and forced pass@1 exceeds it at 4k and 8k.
+
 Measures, per budget:
 
   pass@4     oracle over the K samples - bounds any SELECTION method

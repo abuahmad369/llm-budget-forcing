@@ -122,6 +122,71 @@ truncated samples including ones that were already correct.
 
 ---
 
+## Upper bounds (Phase 11)
+
+### Forcing vs. the selection oracle
+
+`pass@4` is the hard ceiling for any method that *selects* among existing samples —
+CLR, majority voting, self-consistency all live under it.
+
+| Budget | Unforced pass@4 (oracle) | Forced pass@1 |
+|---|---|---|
+| 4k  | 40.0% | **40.8%** |
+| 8k  | 53.3% | **55.8%** |
+| 16k | **73.3%** | 70.8% |
+
+At 4k and 8k, **one forced sample beats the best of four unforced samples.** Forcing
+exceeds the selection ceiling because it does not choose among existing answers — it
+generates a new one conditioned on partial reasoning. At 16k the oracle wins, which
+fits the mechanism: more samples finish naturally, so selection has more to work with.
+
+This quantifies why the CLR/ensembling direction was abandoned. Even a *perfect*
+selector over 4 samples scores 53.3% at 8k; forcing scores 55.8%.
+
+**Caveat:** this compares forced pass@1 against unforced pass@**4**. Forced pass@4 was
+not computed — it requires per-sample forced predictions, which are in
+`phase9_paired.json` rather than the traces. The like-for-like comparison is missing.
+
+### How much of the extraction ceiling does forcing capture?
+
+Restricted to the population forcing can actually act on: truncated **and wrong**.
+
+| Budget | Truncated | Already correct | Rescuable | Answer in tail | FP | Net ceiling | Rescued | Captured | 95% CI |
+|---|---|---|---|---|---|---|---|---|---|
+| 8k  | 81 | 17 | 64 | 16 | 2 | 14 | 11 | **78.6%** | [52%, 92%] |
+| 16k | 58 | 14 | 44 | 11 | 0 | 11 |  9 | **81.8%** | [52%, 95%] |
+
+**Forcing captures ~80% of the recoverable signal.** The ceiling population is small
+(n=11–14) so the interval is wide, but the lower bound (~52%) is well clear of the
+40% threshold at which better extraction would be worth pursuing.
+
+**The 4k row is excluded.** It mixes arms — `forced=40.8%` came from a genuine 4k run
+(baseline 27.5%) while the ceiling is trace-derived (baseline 30.0%). Its apparent
+100% is coincidence.
+
+### The remaining headroom is not in extraction
+
+Only **16/64** rescuable traces at 8k and **11/44** at 16k contain the correct answer
+anywhere in their final 20%. **Roughly 75% of failures never derived the answer at
+all** — no extraction method can recover those.
+
+False-positive control (searching for a *different* problem's answer) ran at 0–4.9%
+against 32–41% signal, so text matching is 8–12× above noise and the ceiling estimate
+is trustworthy.
+
+> The bottleneck is generating the reasoning, not reading it out.
+
+### Retracted metric
+
+An earlier version of Phase 11 reported a `captured` figure of ~62–65% computed
+against `ceil_box` (traces where the answer appears in *any* `\boxed{}`). That was
+wrong: `ceil_box` turned out to equal the *already-correct* set exactly — 14 traces
+at 16k, matching `right→right = 14` from Phase 9 — so it measured samples the
+baseline already scored, not ones forcing could rescue. Numerator and denominator
+were disjoint sets. Superseded by the table above.
+
+---
+
 ## Mechanism
 
 **Problem 1, truth 588, at 16k — 3 of 4 forced samples HIT.** The summary contains
