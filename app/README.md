@@ -65,31 +65,73 @@ paste a problem, set a budget, and watch it get cut off and then rescued.
 
 ## Which machine
 
-| Backend | Where | float16? | Comparable to the report |
-|---|---|---|---|
-| `vllm` | Kaggle T4 | yes | **yes - demo this one** |
-| `hf4bit` | local 4 GB card | no, NF4 | no, approximation only |
+The weights need **6.2 GB in float16**. That single number decides everything.
 
-VibeThinker-3B needs **6.2 GB** in float16. A GTX 1650 has **4 GB**, so float16
-will not load. 4-bit NF4 compresses the weights to about 2 GB, which fits, but
-quantization changes what the model writes - so local numbers show the mechanism
-without matching the tables. The interface says so on screen rather than letting
-anyone assume otherwise.
+| VRAM | OS | Backend | Precision | Comparable to the report |
+|---|---|---|---|---|
+| 16 GB (Kaggle T4) | Linux | `vllm` | float16 | **yes - the reference** |
+| 12 GB+ | Linux / WSL2 | `vllm` | float16 | yes |
+| 8-12 GB | Windows | `hf16` | float16 | yes, different engine |
+| 8-12 GB | Linux / WSL2 | `vllm` | float16 | yes, but cramped |
+| under 8 GB | any | `hf4bit` | 4-bit NF4 | **no - approximation** |
+
+Pass `--backend auto` (the default) and it measures free VRAM, reports what will
+fit, and picks for you. It also sizes the context window to the card instead of
+assuming, since vLLM preallocates its KV pool and a window too large on a small
+card leaves nothing to batch with.
+
+**vLLM does not run natively on Windows.** On Windows either use `hf16`, or
+install vLLM inside WSL2. For a demo two days out, `hf16` is the sane choice.
 
 **See [KAGGLE_LAUNCH.md](KAGGLE_LAUNCH.md)** for the two cells to paste and a
-demo script that builds to the interesting failure case.
+demo order that builds to the interesting failure case.
 
-## Local run on a 4 GB card
+## Running on an 8 GB card
+
+float16 fits, so results stay comparable to the report. On Windows:
+
+```bash
+pip install gradio transformers accelerate
+pip install torch --index-url https://download.pytorch.org/whl/cu121   # if torch has no CUDA
+python live_demo.py --backend hf16
+```
+
+It prints a preflight block before loading anything:
+
+```
+GPU        : NVIDIA GeForce RTX 4060
+VRAM       : 8.00 GB total, 7.21 GB free
+Compute cap: 8.9
+vLLM       : not installed (Linux/WSL2 only)
+float16    : fits, about 14565 tokens of KV cache left
+```
+
+If it says `DOES NOT FIT`, close whatever else is using the GPU - a browser with
+hardware acceleration on can hold half a gigabyte - and rerun.
+
+**Settings for a live demo: budget 2048, K = 2.** An 8 GB card decodes this
+model at roughly 20-35 tokens per second through transformers, so that is about
+two to three minutes per run. Budget 4096 doubles it; 8192 is too slow to stand
+in front of.
+
+The trade against Kaggle: same weights and same precision, but transformers
+generates sequentially where vLLM batches, so it is slower per run. Individual
+samples may differ from vLLM because the attention kernels differ - the
+distribution is the same model, the specific numbers on one run are not
+guaranteed to match.
+
+## Running on a 4 GB card
 
 ```bash
 pip install gradio transformers accelerate bitsandbytes
 python live_demo.py --backend hf4bit
 ```
 
-Keep the budget at **1024-2048** and **K = 1-2**. A GTX 1650 decodes this model
-at roughly 8-15 tokens per second, so K=2 at 2048 tokens is about three minutes
-and 4096 tokens is over ten. It will not OOM at those settings; it will simply
-be slow.
+4-bit NF4 compresses the weights to about 2 GB, which fits, but quantization
+changes what the model writes - so these numbers show the mechanism without
+matching the tables, and the interface says `comparable to report: NO` on screen.
+Keep the budget at **1024-2048** and **K = 1-2**; a GTX 1650 manages roughly 8-15
+tokens per second.
 
 ## The three tabs
 

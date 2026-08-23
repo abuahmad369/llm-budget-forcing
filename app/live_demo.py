@@ -117,24 +117,38 @@ class VLLMEngine(object):
                  for c in o.outputs] for o in outs]
 
 
-class HF4BitEngine(object):
-    name = "hf4bit"
-    label = "HuggingFace / 4-bit NF4"
-    comparable = False
+class HFEngine(object):
+    """transformers backend. Works on Windows, where vLLM does not run.
 
-    def __init__(self, max_len):
-        from transformers import (AutoTokenizer, AutoModelForCausalLM,
-                                  BitsAndBytesConfig)
+    float16 keeps the same weights the report used, so results stay comparable;
+    the attention kernels differ from vLLM so individual samples may land
+    differently, but the distribution is the same model.
+
+    4-bit NF4 is for cards that cannot hold 6.2 GB of weights. It changes the
+    outputs and is not comparable to anything in the report.
+    """
+
+    def __init__(self, max_len, quant):
+        from transformers import AutoTokenizer, AutoModelForCausalLM
+        self.quant = quant
+        self.name = "hf4bit" if quant else "hf16"
+        self.label = ("HuggingFace / 4-bit NF4" if quant
+                      else "HuggingFace / float16")
+        self.comparable = not quant
+
         self.tok = AutoTokenizer.from_pretrained(MODEL)
-        cfg = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-        )
-        self.model = AutoModelForCausalLM.from_pretrained(
-            MODEL, quantization_config=cfg, device_map="auto",
-            trust_remote_code=True)
+        kw = dict(device_map="auto", trust_remote_code=True)
+        if quant:
+            from transformers import BitsAndBytesConfig
+            kw["quantization_config"] = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_use_double_quant=True,
+            )
+        else:
+            kw["torch_dtype"] = torch.float16
+        self.model = AutoModelForCausalLM.from_pretrained(MODEL, **kw)
         self.model.eval()
         self.max_len = max_len
 
@@ -170,16 +184,77 @@ class HF4BitEngine(object):
         return results
 
 
-def build_engine(backend, max_len):
+WEIGHTS_FP16_GB = 6.2
+KV_BYTES_PER_TOKEN = 34328      # measured: vLLM reported 6.6 GiB = 192,272 tok
+
+
+def preflight():
+    """Report the GPU and what will actually fit before anything loads."""
     import importlib.util as iu
+    has_vllm = iu.find_spec("vllm") is not None
+    if not torch.cuda.is_available():
+        print("no CUDA device; generation will be unusably slow")
+        return 0.0, has_vllm
+    p = torch.cuda.get_device_properties(0)
+    total = p.total_memory / 1e9
+    free = torch.cuda.mem_get_info()[0] / 1e9
+    print("GPU        : %s" % p.name)
+    print("VRAM       : %.2f GB total, %.2f GB free" % (total, free))
+    print("Compute cap: %d.%d%s" % (p.major, p.minor,
+                                    "" if p.major >= 8 else "  (Turing: no bf16)"))
+    print("vLLM       : %s" % ("available" if has_vllm else
+                               "not installed (Linux/WSL2 only)"))
+    headroom = free - WEIGHTS_FP16_GB - 0.5      # 0.5 for activations
+    if headroom > 0:
+        print("float16    : fits, about %d tokens of KV cache left"
+              % int(headroom * 1e9 / KV_BYTES_PER_TOKEN))
+    else:
+        print("float16    : DOES NOT FIT (needs %.1f GB of weights alone)"
+              % WEIGHTS_FP16_GB)
+    return free, has_vllm
+
+
+def default_max_len(backend):
+    """Pick a context window the card can actually serve.
+
+    vLLM preallocates its KV cache, so on a small card a large window leaves
+    almost nothing to batch with and the demo crawls. transformers allocates
+    per call, so the window is only a cap there.
+    """
+    if not torch.cuda.is_available():
+        return 4096
+    free = torch.cuda.mem_get_info()[0] / 1e9
+    if backend == "hf4bit":
+        return 5120
+    # vLLM preallocates a KV pool and CUDA graphs, so reserve more; transformers
+    # allocates per call, so only activations need reserving.
+    overhead = 0.9 if backend == "vllm" else 0.5
+    kv_gb = free - (WEIGHTS_FP16_GB + overhead)
+    kv_tokens = max(int(kv_gb * 1e9 / KV_BYTES_PER_TOKEN), 2048)
+    if backend == "vllm":
+        # leave room for a few concurrent sequences, not one very long one
+        return int(min(18432, max(4096, kv_tokens // 3)) // 1024) * 1024
+    return int(min(16384, max(4096, kv_tokens)) // 1024) * 1024
+
+
+def build_engine(backend, max_len):
+    free, has_vllm = preflight()
     if backend == "auto":
-        vram = (torch.cuda.get_device_properties(0).total_memory / 1e9
-                if torch.cuda.is_available() else 0)
-        has_vllm = iu.find_spec("vllm") is not None
-        backend = "vllm" if (has_vllm and vram >= 12) else "hf4bit"
-        print("auto-selected backend: %s  (vram %.1f GB, vllm=%s)"
-              % (backend, vram, has_vllm))
-    return (VLLMEngine if backend == "vllm" else HF4BitEngine)(max_len)
+        fits_fp16 = free - WEIGHTS_FP16_GB - 0.5 > 0.3
+        if has_vllm and fits_fp16:
+            backend = "vllm"
+        elif fits_fp16:
+            backend = "hf16"
+        else:
+            backend = "hf4bit"
+        print("auto-selected backend: %s" % backend)
+    if backend == "vllm" and not has_vllm:
+        raise SystemExit(
+            "vLLM is not installed. It does not run natively on Windows - use "
+            "WSL2, or pass --backend hf16 to use transformers instead.")
+    if backend == "vllm":
+        return VLLMEngine(max_len)
+    return HFEngine(max_len, quant=(backend == "hf4bit"))
 
 
 # ============================================================== data
@@ -480,24 +555,18 @@ def build_ui(engine, problems):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--backend", default="auto",
-                    choices=["auto", "vllm", "hf4bit"])
+                    choices=["auto", "vllm", "hf16", "hf4bit"])
     ap.add_argument("--max-len", type=int, default=None,
-                    help="context window; defaults to 18432 (vllm) / 5120 (4-bit)")
+                    help="context window; default 18432 vllm / 16384 hf16 / 5120 hf4bit")
     ap.add_argument("--share", action="store_true",
                     help="public URL - required on Kaggle")
     ap.add_argument("--port", type=int, default=7860)
     a = ap.parse_args()
 
-    if torch.cuda.is_available():
-        p = torch.cuda.get_device_properties(0)
-        print("GPU: %s, %.2f GB, cc %d.%d" %
-              (p.name, p.total_memory / 1e9, p.major, p.minor))
-    else:
-        print("WARNING: no CUDA device found; this will be extremely slow.")
-
     max_len = a.max_len
     if max_len is None:
-        max_len = 18432 if a.backend == "vllm" else 5120
+        max_len = default_max_len(a.backend)
+        print("context window: %d tokens (override with --max-len)" % max_len)
 
     print("loading model, this takes a few minutes ...")
     engine = build_engine(a.backend, max_len)
