@@ -51,24 +51,33 @@ Leave Cell 2 running. Stopping it kills the app.
 
 ## What to show, in order
 
-**1. "Run one problem" tab.** Pick `AIME25 #02` (answer 16), budget **2048**,
-K = 2. It will be cut off with no answer. Forcing recovers it. This is the whole
-thesis in about 40 seconds.
+Verified against the measured traces. The dropdown is 1-indexed, so `#17` is the
+seventeenth problem and its answer is 49.
 
-**2. Raise the budget to 8192** on the same problem. Now it finishes on its own
-and forcing changes nothing. This shows forcing is a recovery mechanism, not a
-crutch.
+**1. `AIME25 #17`, budget 2048, K=2.** All samples cut off with no answer, then
+forcing recovers **49**. Three of the four stored traces finish by ~2250 tokens,
+so 2048 cuts it about a hundred tokens from the finish line - the cleanest
+possible rescue. About 40 seconds.
 
-**3. Pick `AIME25 #14`** (answer 60), budget **4096**. Cut off, and forcing
-produces a *wrong* answer. Do not skip this one. It shows forcing cannot invent
-reasoning that never happened, and volunteering that limitation is worth more in
-a viva than hiding it.
+**2. Same problem, budget 4096.** Now it finishes on its own and forcing changes
+nothing. Shows forcing is a recovery mechanism, not a crutch.
 
-**4. "Sweep budgets" tab.** Budgets `1024, 2048, 4096, 8192`, K = 2. Draws the
-accuracy-against-budget curve live, the same shape as Figure 4.2.
+**3. `AIME25 #14` (answer 60), budget 4096.** Cut off, and forcing produces a
+confident *wrong* answer. Do not skip this. It shows forcing cannot invent
+reasoning that never happened, and volunteering that is worth more in a viva
+than having it found for you.
 
-**5. "Reproduce the benchmark" tab.** 5 problems, budget 4096, K = 2. A few
-minutes. Prints your measured accuracy beside the reported figures.
+**4. "Sweep budgets" tab.** `1024, 2048, 4096`, K=2. Draws the accuracy curve
+live, same shape as Figure 4.2.
+
+**5. "Reproduce the benchmark" tab.** 5 problems, budget 4096, K=2. Prints your
+measured accuracy beside the reported figures.
+
+**Warm the model up first.** The first generation after loading compiles Triton
+kernels and is noticeably slower - your Kaggle logs show the JIT latency spike.
+Run anything once at budget 1024 and discard it before presenting.
+
+Full script, smoke tests and failure recovery: **[DEMO_GUIDE.md](DEMO_GUIDE.md)**.
 
 ## Expected runtimes on a T4
 
