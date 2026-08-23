@@ -20,3 +20,7 @@ scratch/
 
 # build artifact, regenerate with Compress-Archive
 report/overleaf_upload.zip
+
+# app build inputs (regenerate: see app/README.md)
+app/_tok.json
+app/_aime_raw.json

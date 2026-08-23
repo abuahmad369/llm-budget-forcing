@@ -1,0 +1,646 @@
+<title>The Budget Cut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#EDF0F3; --surface:#FFFFFF; --surface-2:#F6F8FA;
+  --line:#D5DCE4; --line-soft:#E4E9EF;
+  --ink:#131820; --ink-2:#414D5C; --ink-3:#6B7788;
+  --accent:#0E6E80; --accent-soft:#D7EAEE;
+  --ok:#1D7A4D; --ok-soft:#DCEFE4;
+  --bad:#B3341F; --bad-soft:#F7DED8;
+  --cut:#8A6D1F; --cut-soft:#F2E8CC;
+  --shadow:0 1px 2px rgba(19,24,32,.06), 0 4px 14px rgba(19,24,32,.05);
+  --r:3px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1116; --surface:#151A21; --surface-2:#1B222B;
+    --line:#2A333E; --line-soft:#212932;
+    --ink:#E7ECF3; --ink-2:#A9B5C3; --ink-3:#7B8796;
+    --accent:#46B4C6; --accent-soft:#123039;
+    --ok:#48C088; --ok-soft:#12301F;
+    --bad:#EE7255; --bad-soft:#38180F;
+    --cut:#D9AE45; --cut-soft:#332810;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1116; --surface:#151A21; --surface-2:#1B222B;
+  --line:#2A333E; --line-soft:#212932;
+  --ink:#E7ECF3; --ink-2:#A9B5C3; --ink-3:#7B8796;
+  --accent:#46B4C6; --accent-soft:#123039;
+  --ok:#48C088; --ok-soft:#12301F;
+  --bad:#EE7255; --bad-soft:#38180F;
+  --cut:#D9AE45; --cut-soft:#332810;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px; margin:0 auto; padding:28px 20px 64px}
+
+/* ---------- header ---------- */
+header{
+  display:flex; flex-wrap:wrap; align-items:flex-end;
+  justify-content:space-between; gap:18px;
+  padding-bottom:18px; border-bottom:2px solid var(--ink);
+}
+h1{
+  margin:0; font-size:31px; line-height:1.12; font-weight:700;
+  letter-spacing:-.022em; text-wrap:balance;
+}
+h1 .thin{font-weight:400; color:var(--ink-3)}
+.sub{
+  margin:7px 0 0; max-width:60ch; color:var(--ink-2);
+  font-size:14.5px;
+}
+.chips{display:flex; flex-wrap:wrap; gap:6px; flex-shrink:0}
+.chip{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px; letter-spacing:.03em;
+  padding:4px 8px; border:1px solid var(--line);
+  border-radius:var(--r); color:var(--ink-2); background:var(--surface);
+  white-space:nowrap;
+}
+
+/* ---------- control bar ---------- */
+.panel{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); box-shadow:var(--shadow);
+}
+.control{margin-top:20px; padding:20px 22px 16px}
+.ctl-head{
+  display:flex; flex-wrap:wrap; align-items:baseline;
+  justify-content:space-between; gap:12px; margin-bottom:6px;
+}
+.lbl{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px; text-transform:uppercase; letter-spacing:.09em;
+  color:var(--ink-3); font-weight:500;
+}
+.budget-read{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:25px; font-weight:600; letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums; color:var(--accent);
+}
+.budget-read span{font-size:13px; color:var(--ink-3); font-weight:400}
+
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%;
+  height:26px; background:transparent; cursor:pointer; margin:2px 0 0;
+}
+input[type=range]::-webkit-slider-runnable-track{
+  height:5px; background:var(--line); border-radius:99px;
+}
+input[type=range]::-moz-range-track{
+  height:5px; background:var(--line); border-radius:99px;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:17px; height:17px; margin-top:-6px; border-radius:50%;
+  background:var(--accent); border:3px solid var(--surface);
+  box-shadow:0 0 0 1px var(--accent);
+}
+input[type=range]::-moz-range-thumb{
+  width:17px; height:17px; border-radius:50%;
+  background:var(--accent); border:3px solid var(--surface);
+  box-shadow:0 0 0 1px var(--accent);
+}
+input[type=range]:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+.ticks{
+  display:flex; justify-content:space-between;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px; color:var(--ink-3); margin-top:-2px;
+}
+.ticks b{font-weight:500; color:var(--accent)}
+.ticks i{font-style:normal; opacity:.45}
+
+.row2{
+  display:flex; flex-wrap:wrap; gap:14px; align-items:center;
+  justify-content:space-between; margin-top:14px;
+  padding-top:14px; border-top:1px solid var(--line-soft);
+}
+.toggle{
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:13.5px; cursor:pointer; user-select:none;
+}
+.toggle input{position:absolute; opacity:0; width:0; height:0}
+.track{
+  width:40px; height:22px; border-radius:99px; background:var(--line);
+  position:relative; transition:background .16s ease; flex-shrink:0;
+}
+.track::after{
+  content:""; position:absolute; top:3px; left:3px;
+  width:16px; height:16px; border-radius:50%; background:var(--surface);
+  transition:transform .16s ease; box-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+.toggle input:checked + .track{background:var(--accent)}
+.toggle input:checked + .track::after{transform:translateX(18px)}
+.toggle input:focus-visible + .track{outline:2px solid var(--accent); outline-offset:2px}
+.toggle input:disabled + .track{opacity:.4}
+.toggle.off{color:var(--ink-3)}
+.warn{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px; color:var(--cut); background:var(--cut-soft);
+  padding:4px 9px; border-radius:var(--r);
+}
+
+/* ---------- readouts ---------- */
+.stats{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--line); border:1px solid var(--line);
+  border-radius:var(--r); overflow:hidden; margin-top:16px;
+}
+.stat{background:var(--surface); padding:13px 15px}
+.stat .k{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px; text-transform:uppercase; letter-spacing:.07em;
+  color:var(--ink-3);
+}
+.stat .v{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:24px; font-weight:600; font-variant-numeric:tabular-nums;
+  line-height:1.2; margin-top:3px;
+}
+.stat .d{font-size:11.5px; color:var(--ink-3); font-family:"IBM Plex Mono",monospace}
+.v.ok{color:var(--ok)} .v.cut{color:var(--cut)} .v.ac{color:var(--accent)}
+
+/* ---------- two column ---------- */
+.cols{display:grid; grid-template-columns:1.15fr .85fr; gap:16px; margin-top:16px}
+.card{padding:17px 19px 19px}
+.card h2{
+  margin:0 0 3px; font-size:14px; font-weight:600; letter-spacing:-.005em;
+}
+.card p.note{margin:0 0 14px; font-size:12.5px; color:var(--ink-3)}
+
+/* ---------- matrix ---------- */
+.matrix{display:grid; grid-template-columns:repeat(6,1fr); gap:7px}
+.tile{
+  border:1px solid var(--line); border-radius:var(--r);
+  background:var(--surface-2); padding:6px 5px 5px;
+  cursor:pointer; text-align:center; transition:border-color .12s, transform .12s;
+}
+.tile:hover{border-color:var(--accent); transform:translateY(-1px)}
+.tile:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.tile.sel{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)}
+.tile .n{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px; color:var(--ink-3); font-variant-numeric:tabular-nums;
+}
+.cells{display:flex; gap:2px; justify-content:center; margin-top:3px}
+.c{width:11px; height:11px; border-radius:1px; background:var(--line)}
+.c.ok{background:var(--ok)} .c.bad{background:var(--bad)} .c.cut{background:var(--cut); opacity:.55}
+.tile.gain{border-color:var(--ok)}
+
+.legend{
+  display:flex; flex-wrap:wrap; gap:13px; margin-top:13px;
+  padding-top:12px; border-top:1px solid var(--line-soft);
+  font-size:11.5px; color:var(--ink-2);
+}
+.insight{
+  margin:11px 0 0; padding:10px 12px; border-radius:var(--r);
+  background:var(--surface-2); border-left:2px solid var(--accent);
+  font-size:12.5px; line-height:1.5; color:var(--ink-2);
+}
+.insight b{color:var(--ink); font-weight:600;
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.legend i{display:inline-block; width:10px; height:10px; border-radius:1px; margin-right:5px; vertical-align:-1px}
+
+/* ---------- chart ---------- */
+svg.chart{width:100%; height:auto; display:block; overflow:visible}
+.grid-l{stroke:var(--line-soft); stroke-width:1}
+.axis-t{fill:var(--ink-3); font-family:"IBM Plex Mono",monospace; font-size:9.5px}
+.ln-acc{fill:none; stroke:var(--bad); stroke-width:2; stroke-linejoin:round}
+.ln-tr{fill:none; stroke:var(--cut); stroke-width:1.4; stroke-dasharray:3 3; opacity:.8}
+.dot-f{fill:var(--ok)}
+.ln-f{fill:none; stroke:var(--ok); stroke-width:2; stroke-linejoin:round}
+.cursor-l{stroke:var(--accent); stroke-width:1.4}
+.cursor-d{fill:var(--accent)}
+.paper-l{stroke:var(--ink-3); stroke-width:1; stroke-dasharray:2 3; opacity:.55}
+
+/* ---------- detail ---------- */
+.detail{margin-top:16px; padding:19px 21px 22px}
+.dhead{display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; justify-content:space-between}
+.problem{
+  font-family:"IBM Plex Serif",Georgia,serif;
+  font-size:16px; line-height:1.62; margin:11px 0 4px;
+  max-width:72ch; color:var(--ink);
+}
+.truth{
+  font-family:"IBM Plex Mono",monospace; font-size:12.5px;
+  color:var(--ink-2); margin-bottom:16px;
+}
+.truth b{color:var(--ok); font-weight:600}
+
+.samples{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+.smp{border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:var(--surface-2)}
+.smp-h{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:8px 11px; border-bottom:1px solid var(--line);
+  background:var(--surface);
+  font-family:"IBM Plex Mono",monospace; font-size:11px;
+  font-variant-numeric:tabular-nums; color:var(--ink-2);
+}
+.pill{
+  font-size:10px; letter-spacing:.04em; text-transform:uppercase;
+  padding:2px 7px; border-radius:99px; font-weight:500;
+}
+.pill.term{background:var(--ok-soft); color:var(--ok)}
+.pill.cut{background:var(--cut-soft); color:var(--cut)}
+
+.trace{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11.5px; line-height:1.62; color:var(--ink-2);
+  padding:11px 12px 0; max-height:132px; overflow:hidden;
+  position:relative; white-space:pre-wrap; word-break:break-word;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 26px);
+  mask-image:linear-gradient(180deg,transparent 0,#000 26px);
+}
+.cutbar{
+  display:flex; align-items:center; gap:8px; padding:7px 12px 8px;
+  font-family:"IBM Plex Mono",monospace; font-size:10px;
+  letter-spacing:.05em; text-transform:uppercase;
+}
+.cutbar .rule{flex:1; height:0; border-top:1.5px dashed currentColor; opacity:.5}
+.cutbar.cut{color:var(--cut); background:var(--cut-soft)}
+.cutbar.term{color:var(--ok); background:var(--ok-soft)}
+
+.verdicts{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line)}
+.vd{background:var(--surface); padding:9px 11px}
+.vd .k{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px;
+  text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3);
+}
+.vd .a{
+  font-family:"IBM Plex Mono",monospace; font-size:17px; font-weight:600;
+  font-variant-numeric:tabular-nums; margin-top:2px;
+}
+.a.ok{color:var(--ok)} .a.bad{color:var(--bad)} .a.none{color:var(--ink-3); font-size:12px; font-weight:400}
+
+footer{
+  margin-top:26px; padding-top:15px; border-top:1px solid var(--line);
+  font-size:12.5px; color:var(--ink-3); max-width:78ch;
+}
+footer a{color:var(--accent)}
+footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
+
+@media (max-width:940px){
+  .cols{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .matrix{grid-template-columns:repeat(5,1fr)}
+  .samples{grid-template-columns:1fr}
+  h1{font-size:25px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important}
+}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>The Budget Cut <span class="thin">&mdash; VibeThinker&#8209;3B on AIME&nbsp;2025</span></h1>
+    <p class="sub">Drag the token budget. Watch accuracy collapse &mdash; then watch how much of it
+    was never a reasoning failure at all. Every value here was measured on a Kaggle T4; nothing is simulated.</p>
+  </div>
+  <div class="chips">
+    <span class="chip">30 problems</span>
+    <span class="chip">K = 4</span>
+    <span class="chip">120 traces</span>
+    <span class="chip">22.6 GPU&#8209;h</span>
+  </div>
+</header>
+
+<section class="panel control">
+  <div class="ctl-head">
+    <span class="lbl">Generation budget</span>
+    <span class="budget-read" id="bread">8,192 <span>tokens</span></span>
+  </div>
+  <input type="range" id="slider" min="0" max="9" step="1" value="5"
+         aria-label="Generation budget in tokens">
+  <div class="ticks" id="ticks"></div>
+
+  <div class="row2">
+    <label class="toggle" id="ftog-l">
+      <input type="checkbox" id="ftog">
+      <span class="track"></span>
+      <span>Apply budget forcing</span>
+    </label>
+    <span class="warn" id="fwarn" hidden>forcing measured only at 8k and 16k</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="k">Accuracy</div>
+      <div class="v ac" id="s-acc">46.7%</div>
+      <div class="d" id="s-acc-d">56 of 120 correct</div>
+    </div>
+    <div class="stat">
+      <div class="k">Cut off mid&#8209;thought</div>
+      <div class="v cut" id="s-tr">67.5%</div>
+      <div class="d" id="s-tr-d">81 of 120 samples</div>
+    </div>
+    <div class="stat">
+      <div class="k">Gain from forcing</div>
+      <div class="v ok" id="s-gain">&mdash;</div>
+      <div class="d" id="s-gain-d">toggle forcing on</div>
+    </div>
+    <div class="stat">
+      <div class="k">Answers destroyed</div>
+      <div class="v" id="s-dmg">&mdash;</div>
+      <div class="d" id="s-dmg-d">correct &rarr; wrong</div>
+    </div>
+  </div>
+</section>
+
+<div class="cols">
+  <section class="panel card">
+    <h2>Every sample at this budget</h2>
+    <p class="note">One tile per problem, four cells per tile &mdash; one for each sampled attempt.
+      Click a tile to read its reasoning.</p>
+    <div class="matrix" id="matrix"></div>
+    <div class="legend">
+      <span><i style="background:var(--ok)"></i>Correct</span>
+      <span><i style="background:var(--bad)"></i>Wrong answer</span>
+      <span><i style="background:var(--cut);opacity:.55"></i>Cut off &mdash; no answer written</span>
+    </div>
+    <p class="insight" id="insight"></p>
+  </section>
+
+  <section class="panel card">
+    <h2>Accuracy against budget</h2>
+    <p class="note">The dashed amber line is the share of samples cut off. It is the mirror image of accuracy.</p>
+    <svg class="chart" id="chart" viewBox="0 0 420 250" role="img"
+         aria-label="Accuracy and truncation rate plotted against token budget"></svg>
+    <div class="legend">
+      <span><i style="background:var(--bad)"></i>No forcing</span>
+      <span><i style="background:var(--ok)"></i>With forcing</span>
+      <span><i style="background:var(--cut)"></i>Cut off</span>
+    </div>
+  </section>
+</div>
+
+<section class="panel detail">
+  <div class="dhead">
+    <span class="lbl" id="d-lbl">Problem 01</span>
+    <span class="lbl" id="d-meta"></span>
+  </div>
+  <p class="problem" id="d-text"></p>
+  <p class="truth" id="d-truth"></p>
+  <div class="samples" id="d-samples"></div>
+</section>
+
+<footer>
+  <p>Traces come from a single generation pass at 16,384 tokens. Because generation is autoregressive,
+  the first <em>N</em> tokens of a long run are exactly what a budget&#8209;<em>N</em> run would have produced,
+  so every smaller budget here is the real thing rather than an approximation &mdash; an 8k condition derived
+  this way reproduced a genuine 8k run to within two samples.
+  Per&#8209;sample forcing outcomes were measured at 8,192 and 16,384 tokens only; at other budgets the
+  toggle is disabled. The paper reports <code>91.4%</code> for this benchmark under an unconstrained budget.</p>
+</footer>
+
+</div>
+
+<script id="payload" type="application/json">__DATA__</script>
+<script>
+(function(){
+"use strict";
+var D = JSON.parse(document.getElementById("payload").textContent);
+var B = D.meta.budgets, FB = D.meta.forced_per_sample_budgets;
+var sel = 0, bi = B.indexOf(8192), forcing = false;
+
+var $ = function(id){ return document.getElementById(id); };
+var fmt = function(n){ return n.toLocaleString("en-US"); };
+
+/* ---- ticks ---- */
+(function(){
+  var h = "";
+  for (var i = 0; i < B.length; i++){
+    var lab = (B[i] / 1024) + "k";
+    var measured = FB.indexOf(B[i]) >= 0;
+    h += "<" + (measured ? "b" : "i") + ">" + lab + "</" + (measured ? "b" : "i") + ">";
+  }
+  $("ticks").innerHTML = h;
+})();
+
+/* ---- per-sample state at current budget ---- */
+function cellState(s){
+  var e = s.b[String(B[bi])];
+  var use = forcing && e.hasOwnProperty("fa");
+  var ans = use ? e.fa : e.a;
+  var ok  = use ? e.fok : e.ok;
+  if (ans === null || ans === undefined) return { cls:"cut", ans:null, ok:0, e:e };
+  return { cls: ok ? "ok" : "bad", ans:ans, ok:ok, e:e };
+}
+
+function forcingAvailable(){ return FB.indexOf(B[bi]) >= 0; }
+
+/* ---- matrix ---- */
+function drawMatrix(){
+  var h = "";
+  for (var p = 0; p < D.problems.length; p++){
+    var pr = D.problems[p], cells = "", gained = false;
+    for (var c = 0; c < pr.samples.length; c++){
+      var st = cellState(pr.samples[c]);
+      var e = st.e;
+      if (forcing && e.hasOwnProperty("fa") && e.fok && !e.ok) gained = true;
+      cells += '<span class="c ' + st.cls + '"></span>';
+    }
+    h += '<button class="tile' + (p === sel ? " sel" : "") + (gained ? " gain" : "") +
+         '" data-p="' + p + '" aria-label="Problem ' + (p + 1) + '">' +
+         '<span class="cells">' + cells + '</span>' +
+         '<span class="n">' + (p + 1) + '</span></button>';
+  }
+  $("matrix").innerHTML = h;
+}
+
+/* ---- stats ---- */
+function drawStats(){
+  var key = String(B[bi]);
+  var nOk = 0, nTr = 0, nBase = 0, nDmg = 0, nGain = 0;
+  for (var p = 0; p < D.problems.length; p++){
+    var ss = D.problems[p].samples;
+    for (var c = 0; c < ss.length; c++){
+      var e = ss[c].b[key];
+      nTr += e.t;
+      nBase += e.ok;
+      var st = cellState(ss[c]);
+      nOk += st.ok;
+      if (e.hasOwnProperty("fa")){
+        if (e.fok && !e.ok) nGain++;
+        if (!e.fok && e.ok) nDmg++;
+      }
+    }
+  }
+  $("s-acc").textContent = (100 * nOk / 120).toFixed(1) + "%";
+  $("s-acc-d").textContent = nOk + " of 120 correct";
+  $("s-tr").textContent = (100 * nTr / 120).toFixed(1) + "%";
+  $("s-tr-d").textContent = nTr + " of 120 samples";
+
+  var volunteered = 0, volOk = 0;
+  for (var p2 = 0; p2 < D.problems.length; p2++){
+    var ss2 = D.problems[p2].samples;
+    for (var c2 = 0; c2 < ss2.length; c2++){
+      var st2 = cellState(ss2[c2]);
+      if (st2.ans !== null && st2.ans !== undefined){ volunteered++; volOk += st2.ok; }
+    }
+  }
+  var verb = (forcing && forcingAvailable()) ? "forced out of" : "volunteered by";
+  $("insight").innerHTML =
+    "<b>" + volOk + " of " + volunteered + "</b> answers " + verb +
+    " the model at this budget are correct. " +
+    ((forcing && forcingAvailable())
+      ? "Forcing turns silence into a commitment \u2014 and a commitment can be wrong."
+      : "Left alone, it almost never writes an answer it does not have.");
+
+  if (forcing && forcingAvailable()){
+    $("s-gain").textContent = "+" + (100 * (nOk - nBase) / 120).toFixed(1);
+    $("s-gain-d").textContent = nGain + " samples rescued";
+    $("s-dmg").textContent = nDmg;
+    $("s-dmg").className = "v " + (nDmg === 0 ? "ok" : "bad");
+    $("s-dmg-d").textContent = nDmg === 0 ? "none, across every sample" : "correct \u2192 wrong";
+  } else {
+    $("s-gain").textContent = "\u2014";
+    $("s-gain-d").textContent = forcingAvailable() ? "toggle forcing on" : "not measured here";
+    $("s-dmg").textContent = "\u2014";
+    $("s-dmg").className = "v";
+    $("s-dmg-d").textContent = "correct \u2192 wrong";
+  }
+}
+
+/* ---- chart ---- */
+function drawChart(){
+  var W = 420, H = 250, L = 34, R = 10, T = 12, Bm = 30;
+  var x = function(i){ return L + i * (W - L - R) / (B.length - 1); };
+  var y = function(v){ return T + (100 - v) * (H - T - Bm) / 100; };
+  var s = "";
+
+  for (var g = 0; g <= 100; g += 25){
+    s += '<line class="grid-l" x1="' + L + '" y1="' + y(g) + '" x2="' + (W - R) + '" y2="' + y(g) + '"/>' +
+         '<text class="axis-t" x="' + (L - 6) + '" y="' + (y(g) + 3) + '" text-anchor="end">' + g + '</text>';
+  }
+  s += '<line class="paper-l" x1="' + L + '" y1="' + y(D.meta.paper_score) + '" x2="' + (W - R) +
+       '" y2="' + y(D.meta.paper_score) + '"/>' +
+       '<text class="axis-t" x="' + (W - R) + '" y="' + (y(D.meta.paper_score) - 4) +
+       '" text-anchor="end">paper 91.4</text>';
+
+  var pa = "", pt = "";
+  for (var i = 0; i < D.curve.length; i++){
+    pa += (i ? "L" : "M") + x(i) + " " + y(D.curve[i].acc);
+    pt += (i ? "L" : "M") + x(i) + " " + y(D.curve[i].trunc);
+  }
+  s += '<path class="ln-tr" d="' + pt + '"/>';
+  s += '<path class="ln-acc" d="' + pa + '"/>';
+
+  var fp = [];
+  for (var j = 0; j < D.curve.length; j++){
+    if (D.curve[j].facc !== null && D.curve[j].facc !== undefined) fp.push([j, D.curve[j].facc]);
+  }
+  var fd = "";
+  for (var k = 0; k < fp.length; k++) fd += (k ? "L" : "M") + x(fp[k][0]) + " " + y(fp[k][1]);
+  s += '<path class="ln-f" d="' + fd + '"/>';
+  for (var m = 0; m < fp.length; m++){
+    s += '<circle class="dot-f" cx="' + x(fp[m][0]) + '" cy="' + y(fp[m][1]) + '" r="3.2"/>';
+  }
+
+  s += '<line class="cursor-l" x1="' + x(bi) + '" y1="' + T + '" x2="' + x(bi) + '" y2="' + y(0) + '"/>' +
+       '<circle class="cursor-d" cx="' + x(bi) + '" cy="' + y(D.curve[bi].acc) + '" r="4"/>';
+
+  for (var t = 0; t < B.length; t += 3){
+    s += '<text class="axis-t" x="' + x(t) + '" y="' + (H - 12) + '" text-anchor="middle">' +
+         (B[t] / 1024) + 'k</text>';
+  }
+  s += '<text class="axis-t" x="' + ((L + W - R) / 2) + '" y="' + (H - 1) +
+       '" text-anchor="middle">token budget</text>';
+  $("chart").innerHTML = s;
+}
+
+/* ---- detail ---- */
+function esc(t){
+  return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function drawDetail(){
+  var pr = D.problems[sel], key = String(B[bi]);
+  $("d-lbl").textContent = "Problem " + (sel < 9 ? "0" : "") + (sel + 1);
+  $("d-text").textContent = pr.text;
+  $("d-truth").innerHTML = "Correct answer &nbsp;<b>" + pr.truth + "</b>";
+
+  var nOk = 0;
+  for (var q = 0; q < pr.samples.length; q++) nOk += cellState(pr.samples[q]).ok;
+  $("d-meta").textContent = nOk + " of 4 correct \u00B7 " + fmt(B[bi]) + " token budget";
+
+  var h = "";
+  for (var c = 0; c < pr.samples.length; c++){
+    var smp = pr.samples[c], e = smp.b[key];
+    var cut = e.t === 1;
+    var st = cellState(smp);
+
+    var uA = e.a === null || e.a === undefined
+      ? '<div class="a none">no answer written</div>'
+      : '<div class="a ' + (e.ok ? "ok" : "bad") + '">' + e.a + '</div>';
+
+    var fA;
+    if (!e.hasOwnProperty("fa")){
+      fA = '<div class="a none">not measured at this budget</div>';
+    } else if (e.fa === null || e.fa === undefined){
+      fA = '<div class="a none">no answer</div>';
+    } else {
+      fA = '<div class="a ' + (e.fok ? "ok" : "bad") + '">' + e.fa + '</div>';
+    }
+
+    h += '<div class="smp">' +
+      '<div class="smp-h"><span>attempt ' + (c + 1) + '</span>' +
+        '<span>' + fmt(e.len) + ' / ' + fmt(smp.n_tok) + ' tok</span>' +
+        '<span class="pill ' + (cut ? "cut" : "term") + '">' +
+          (cut ? "cut off" : "finished") + '</span></div>' +
+      '<div class="trace">' + esc(e.tail) + '</div>' +
+      '<div class="cutbar ' + (cut ? "cut" : "term") + '">' +
+        '<span class="rule"></span>' +
+        '<span>' + (cut ? "budget exhausted \u2014 still thinking" : "model stopped on its own") + '</span>' +
+        '<span class="rule"></span></div>' +
+      '<div class="verdicts">' +
+        '<div class="vd"><div class="k">No forcing</div>' + uA + '</div>' +
+        '<div class="vd"><div class="k">With forcing</div>' + fA + '</div>' +
+      '</div></div>';
+  }
+  $("d-samples").innerHTML = h;
+}
+
+/* ---- render ---- */
+function render(){
+  $("bread").innerHTML = fmt(B[bi]) + ' <span>tokens</span>';
+  var avail = forcingAvailable();
+  $("ftog").disabled = !avail;
+  $("ftog-l").className = "toggle" + (avail ? "" : " off");
+  $("fwarn").hidden = avail;
+  if (!avail) { $("ftog").checked = false; forcing = false; }
+  drawMatrix(); drawStats(); drawChart(); drawDetail();
+}
+
+$("slider").addEventListener("input", function(ev){
+  bi = parseInt(ev.target.value, 10); render();
+});
+$("ftog").addEventListener("change", function(ev){
+  forcing = ev.target.checked; render();
+});
+$("matrix").addEventListener("click", function(ev){
+  var t = ev.target.closest(".tile");
+  if (!t) return;
+  sel = parseInt(t.getAttribute("data-p"), 10);
+  drawMatrix(); drawDetail();
+});
+
+render();
+})();
+</script>
