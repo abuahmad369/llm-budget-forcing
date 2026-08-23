@@ -55,3 +55,61 @@ volunteered exactly **one** wrong answer across all 1,200 sample-budget
 observations - it either states the correct answer or states nothing. Forcing
 converts that silence into a commitment, which at 8k is right 11 times and wrong
 53 times.
+
+---
+
+# Live demo - `live_demo.py`
+
+The explorer above replays stored traces. This one **runs the model**: pick or
+paste a problem, set a budget, and watch it get cut off and then rescued.
+
+## Which machine
+
+| Backend | Where | float16? | Comparable to the report |
+|---|---|---|---|
+| `vllm` | Kaggle T4 | yes | **yes - demo this one** |
+| `hf4bit` | local 4 GB card | no, NF4 | no, approximation only |
+
+VibeThinker-3B needs **6.2 GB** in float16. A GTX 1650 has **4 GB**, so float16
+will not load. 4-bit NF4 compresses the weights to about 2 GB, which fits, but
+quantization changes what the model writes - so local numbers show the mechanism
+without matching the tables. The interface says so on screen rather than letting
+anyone assume otherwise.
+
+**See [KAGGLE_LAUNCH.md](KAGGLE_LAUNCH.md)** for the two cells to paste and a
+demo script that builds to the interesting failure case.
+
+## Local run on a 4 GB card
+
+```bash
+pip install gradio transformers accelerate bitsandbytes
+python live_demo.py --backend hf4bit
+```
+
+Keep the budget at **1024-2048** and **K = 1-2**. A GTX 1650 decodes this model
+at roughly 8-15 tokens per second, so K=2 at 2048 tokens is about three minutes
+and 4096 tokens is over ten. It will not OOM at those settings; it will simply
+be slow.
+
+## The three tabs
+
+**Run one problem.** One generation pass, scored twice - as written, and again
+after appending the commit phrase to any sample that ran out of budget. Shows
+per-sample tokens, whether it terminated, both answers, and whether forcing
+rescued or damaged that sample.
+
+**Sweep budgets.** The same problem at several budgets, plotted live. Reproduces
+the shape of Figure 4.2 on whatever problem you choose.
+
+**Reproduce the benchmark.** Runs the first N problems end to end and prints the
+measured accuracy beside the reported figures. This is the tab for *why should I
+believe your table*.
+
+## Keeping it honest
+
+`FORCE_BARE`, `extract_boxed`, and `to_int` in `live_demo.py` are copied verbatim
+from `src/common.py`. **If you edit one, edit both** - otherwise the demo stops
+measuring the same quantity the report measured, and the comparison is void.
+
+Forcing only ever touches a sample that failed to finish. A sample that stopped
+on its own is passed through untouched, which is why the damaged count is zero.
