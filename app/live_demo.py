@@ -24,6 +24,7 @@ same thing the report measured.
 """
 import argparse
 import gc
+import threading
 import json
 import re
 import time
@@ -33,6 +34,10 @@ import gradio as gr
 import torch
 
 MODEL = "WeiboAI/VibeThinker-3B"
+
+# vLLM's LLM.generate is not safe to call concurrently, and Gradio will happily
+# fire a second request while the first is still running.
+ENGINE_LOCK = threading.Lock()
 AIME_URL = ("https://datasets-server.huggingface.co/rows"
             "?dataset=math-ai%2Faime25&config=default&split=test"
             "&offset=0&length=30")
@@ -151,6 +156,13 @@ class HFEngine(object):
         self.model = AutoModelForCausalLM.from_pretrained(MODEL, **kw)
         self.model.eval()
         self.max_len = max_len
+        self.stop_ids = set()
+        for t in (self.tok.eos_token_id, getattr(self.model.generation_config,
+                                                 "eos_token_id", None)):
+            if isinstance(t, int):
+                self.stop_ids.add(t)
+            elif isinstance(t, (list, tuple)):
+                self.stop_ids.update(int(x) for x in t)
 
     def prompt(self, q):
         return self.tok.apply_chat_template(
@@ -175,8 +187,11 @@ class HFEngine(object):
                     )
                 seq = out[0][n_in:]
                 txt = self.tok.decode(seq, skip_special_tokens=True)
-                gens.append(Gen(txt, int(seq.shape[0]),
-                                int(seq.shape[0]) >= max_tokens))
+                # A sample that emits EOS has finished even if it happens to do
+                # so on the very last allowed token, so test for the stop token
+                # rather than inferring truncation from length alone.
+                ended = bool(seq.numel()) and int(seq[-1]) in self.stop_ids
+                gens.append(Gen(txt, int(seq.shape[0]), not ended))
                 del out
                 gc.collect()
                 torch.cuda.empty_cache()
@@ -272,6 +287,17 @@ def load_problems():
 
 
 # ============================================================== core measurement
+def max_budget(engine):
+    """Largest generation budget the loaded engine can actually serve.
+
+    The forcing pass resubmits prompt + trace + commit phrase and asks for 24
+    more tokens, so the budget must leave headroom or that second call overflows
+    the context window. Without this the slider offers 16k on a card configured
+    for 4k and the run dies partway through a demo.
+    """
+    return max(512, ((engine.max_len - 768) // 256) * 256)
+
+
 def measure(engine, question, truth, budget, k, progress=None):
     """Generate k samples at `budget`, then force the truncated ones.
 
@@ -279,9 +305,11 @@ def measure(engine, question, truth, budget, k, progress=None):
     procedure used in the report.
     """
     p = engine.prompt(question)
+    budget = min(int(budget), max_budget(engine))
 
     t0 = time.time()
-    gens = engine.run([p], max_tokens=budget, n=k)[0]
+    with ENGINE_LOCK:
+        gens = engine.run([p], max_tokens=budget, n=k)[0]
     gen_s = time.time() - t0
     gen_tokens = sum(g.n_tokens for g in gens)
 
@@ -294,7 +322,8 @@ def measure(engine, question, truth, budget, k, progress=None):
             progress(0.75, desc="Forcing %d truncated sample(s)" % len(idx))
         t1 = time.time()
         fprompts = [p + gens[i].text + FORCE_BARE for i in idx]
-        fouts = engine.run(fprompts, max_tokens=24, n=1, greedy=True)
+        with ENGINE_LOCK:
+            fouts = engine.run(fprompts, max_tokens=24, n=1, greedy=True)
         force_s = time.time() - t1
         for i, o in zip(idx, fouts):
             forced_text[i] = o[0].text
@@ -342,6 +371,7 @@ def measure(engine, question, truth, budget, k, progress=None):
 
 # ============================================================== UI
 def build_ui(engine, problems):
+    MAXB = max_budget(engine)
     choices = ["Custom problem"] + [
         "AIME25 #%02d  (answer %s)" % (p["idx"] + 1, p["answer"])
         for p in problems]
@@ -422,6 +452,15 @@ def build_ui(engine, problems):
             return "Budgets must be comma-separated integers.", None
         if not buds:
             return "Give at least one budget.", None
+        over = [b for b in buds if b > MAXB]
+        buds = [b for b in buds if 128 <= b <= MAXB]
+        if not buds:
+            return ("Every budget given is above %d, which is the most this GPU "
+                    "can serve. Try smaller values." % MAXB), None
+        note = ""
+        if over:
+            note = ("\n\n*Skipped %s - above the %d token limit of this GPU.*"
+                    % (", ".join(str(b) for b in over), MAXB))
 
         xs, plain, forced = [], [], []
         lines = ["| Budget | No forcing | With forcing | Cut off |",
@@ -496,8 +535,8 @@ def build_ui(engine, problems):
                 ans = gr.Number(label="Known answer (blank if unknown)",
                                 value=problems[0]["answer"] if problems else None,
                                 precision=0)
-                bud = gr.Slider(512, 16384, value=4096, step=512,
-                                label="Token budget")
+                bud = gr.Slider(512, MAXB, value=min(4096, MAXB), step=512,
+                                label="Token budget (max %d on this GPU)" % MAXB)
                 kk = gr.Slider(1, 4, value=2, step=1, label="Samples (K)")
             go = gr.Button("Run with and without forcing", variant="primary")
             out_md = gr.Markdown()
@@ -533,8 +572,8 @@ def build_ui(engine, problems):
                         "that answers *why should I believe the table*.")
             with gr.Row():
                 np_ = gr.Slider(1, 30, value=5, step=1, label="Problems")
-                bud3 = gr.Slider(1024, 16384, value=4096, step=1024,
-                                 label="Token budget")
+                bud3 = gr.Slider(1024, max(2048, MAXB), value=min(4096, MAXB),
+                                 step=1024, label="Token budget")
                 kk3 = gr.Slider(1, 4, value=2, step=1, label="Samples (K)")
             gr.Markdown("*Rough cost: problems x K x budget / throughput. "
                         "5 problems, K=2, 4096 tokens is a few minutes on a T4 "
@@ -574,8 +613,9 @@ def main():
     problems = load_problems()
     print("ready: %d problems, backend %s" % (len(problems), engine.label))
 
-    build_ui(engine, problems).launch(share=a.share, server_port=a.port,
-                                      server_name="0.0.0.0")
+    ui = build_ui(engine, problems)
+    ui.queue(max_size=8).launch(share=a.share, server_port=a.port,
+                                server_name="0.0.0.0")
 
 
 if __name__ == "__main__":
