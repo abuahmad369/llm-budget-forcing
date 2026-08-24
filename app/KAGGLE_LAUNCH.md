@@ -37,6 +37,13 @@ importlib.reload(live_demo)
 live_demo.main()
 ```
 
+**Run this cell ONCE.** Re-running it loads a second copy of the model while
+the first is still holding the GPU, and the next attempt dies with
+`Free memory on device cuda:0 ... is less than desired GPU memory utilization`.
+Reloading the module does not release VRAM - only restarting the kernel does. If
+you see that error, use `Run > Restart & clear cell outputs` and start again from
+Cell 2.
+
 The model loads (2-4 minutes), then Gradio prints two URLs:
 
 ```

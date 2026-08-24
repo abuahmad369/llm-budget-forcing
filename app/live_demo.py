@@ -95,12 +95,16 @@ class VLLMEngine(object):
     label = "vLLM / float16"
     comparable = True
 
-    def __init__(self, max_len):
+    def __init__(self, max_len, util=0.90):
         from vllm import LLM
         from transformers import AutoTokenizer
         self.tok = AutoTokenizer.from_pretrained(MODEL)
+        # gpu_memory_utilization is a fraction of TOTAL memory, but vLLM needs
+        # that much FREE. If another process holds the card, 0.90 is impossible
+        # and the failure surfaces deep inside the engine, so it is computed
+        # from what is actually free.
         self.llm = LLM(model=MODEL, dtype="float16",
-                       gpu_memory_utilization=0.90,
+                       gpu_memory_utilization=util,
                        max_model_len=max_len, trust_remote_code=True)
         self.max_len = max_len
 
@@ -254,8 +258,9 @@ def default_max_len(backend):
 
 def build_engine(backend, max_len):
     free, has_vllm = preflight()
+    fits_fp16 = free - WEIGHTS_FP16_GB - 0.5 > 0.3
+
     if backend == "auto":
-        fits_fp16 = free - WEIGHTS_FP16_GB - 0.5 > 0.3
         if has_vllm and fits_fp16:
             backend = "vllm"
         elif fits_fp16:
@@ -263,12 +268,46 @@ def build_engine(backend, max_len):
         else:
             backend = "hf4bit"
         print("auto-selected backend: %s" % backend)
+
     if backend == "vllm" and not has_vllm:
         raise SystemExit(
             "vLLM is not installed. It does not run natively on Windows - use "
             "WSL2, or pass --backend hf16 to use transformers instead.")
+
+    # Stop here rather than letting the engine fail hundreds of lines deep.
+    if backend in ("vllm", "hf16") and not fits_fp16:
+        total = (torch.cuda.get_device_properties(0).total_memory / 1e9
+                 if torch.cuda.is_available() else 0)
+        held = total - free
+        raise SystemExit(
+            "\n" + "=" * 66 + "\n"
+            "CANNOT START: not enough free VRAM for float16.\n"
+            + "=" * 66 + "\n"
+            "  card total   : %.2f GB\n"
+            "  free now     : %.2f GB\n"
+            "  already held : %.2f GB  <-- something else is using the GPU\n"
+            "  weights need : %.2f GB\n\n"
+            "If 'already held' is large, a model from an earlier run is still\n"
+            "resident. Reloading the module does not free GPU memory - only\n"
+            "restarting the kernel does.\n\n"
+            "  Kaggle : Run > Restart & clear cell outputs, then run the launch\n"
+            "           cell ONCE. Every extra run loads another copy.\n"
+            "  Local  : close other GPU processes (check nvidia-smi).\n\n"
+            "On a genuinely small card use --backend hf4bit instead.\n"
+            % (total, free, held, WEIGHTS_FP16_GB))
+
+    if max_len is None:
+        max_len = default_max_len(backend)
+    print("context window: %d tokens (override with --max-len)" % max_len)
+    print("loading model, this takes a few minutes ...")
+
     if backend == "vllm":
-        return VLLMEngine(max_len)
+        # leave ~0.6 GB for the CUDA context and fragmentation
+        total = torch.cuda.get_device_properties(0).total_memory / 1e9
+        util = min(0.90, max(0.50, (free - 0.6) / total))
+        print("vLLM gpu_memory_utilization: %.2f (%.2f GB free of %.2f GB)"
+              % (util, free, total))
+        return VLLMEngine(max_len, util=util)
     return HFEngine(max_len, quant=(backend == "hf4bit"))
 
 
@@ -602,13 +641,10 @@ def main():
     ap.add_argument("--port", type=int, default=7860)
     a = ap.parse_args()
 
-    max_len = a.max_len
-    if max_len is None:
-        max_len = default_max_len(a.backend)
-        print("context window: %d tokens (override with --max-len)" % max_len)
-
-    print("loading model, this takes a few minutes ...")
-    engine = build_engine(a.backend, max_len)
+    # build_engine runs preflight and reports the GPU first; only then is a
+    # context window chosen, so the numbers appear in an order that explains
+    # itself rather than quoting a window before saying what the card holds.
+    engine = build_engine(a.backend, a.max_len)
     print("loading AIME 2025 ...")
     problems = load_problems()
     print("ready: %d problems, backend %s" % (len(problems), engine.label))
