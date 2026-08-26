@@ -1,39 +1,116 @@
-# CSE465 Project — VibeThinker-3B Budget Forcing Study
+# CSE465 Project, VibeThinker-3B Budget Forcing Study
 
-> **SUPERSEDED IN PART.** This file was last fully updated on 10 August 2026 and
-> covers the experiment phases only. Everything after that (report, applications,
-> public showcase, bug fixes, current status) is in **[HANDOFF.md](HANDOFF.md)**.
-> Read HANDOFF.md first. Where the two disagree, HANDOFF.md is newer.
+**Last updated:** 27 August 2026
+**Status:** COMPLETE. Every experiment is finished and the report is fully
+written. Two administrative items stand between here and submission, both listed
+below.
 
-
-**Last updated:** August 10, 2026
-**Deadline:** August 22, 2026 (~12 days left)
-**Status:** Experiments essentially complete. Phase 10 (optional) is blocked on a Kaggle file-mount issue.
+This file is the full record and is safe to resume from with zero context.
+[HANDOFF.md](HANDOFF.md) carries the same current state with more operational
+detail: environment gotchas, how to restart each thread, exact file paths.
+Sections 1 to 8 below are the experiment history and are still accurate. Nothing
+in them needs redoing.
 
 ---
 
-## ⚠️ READ THIS FIRST WHEN YOU COME BACK
+## 0. RESUME HERE
 
 ### How we work together (do not change this)
-- I am an **absolute beginner** — no coding experience.
-- Claude writes **100% of the code**, fully copy-pasteable.
-- Claude gives **exact click-by-click Kaggle instructions**.
+- I am an **absolute beginner**. No coding experience.
+- Claude writes **100 percent of the code**, fully copy pasteable.
+- Claude gives **exact click by click instructions**.
 - **ONE STEP AT A TIME.** Never dump the whole project at once.
-- Every step saves results to files I can download.
+- Every step saves its output to a file I can download.
 
-### To resume, say:
-> *"I'm back. Read PROGRESS.md. Continue from Phase 10."*
->
-> or, if skipping Phase 10:
->
-> *"I'm back. Read PROGRESS.md. Skip Phase 10 and start writing the report."*
+### To resume, paste this
+> *"I'm back. Read PROGRESS.md. The report is written. Tell me what is left."*
 
-### Current blocker (Phase 10 only)
-`FileNotFoundError: phase7_traces.json` in the Phase 10 notebook.
-I uploaded the 11.7 MB file as a Kaggle Dataset and attached it, and I can see it in the
-Input panel — but the code still can't find it. **Section 8 has the fix.**
+### State on 27 August 2026
 
-**Phase 10 is OPTIONAL.** The report is complete without it. If it keeps fighting, skip it.
+| Thing | State |
+|:--|:--|
+| All experiments | DONE. 22.60 GPU hours. Nothing to re-run |
+| IEEE report, full prose | DONE. `report/main_ieee.tex`, 6,435 words, all 44 writing slots filled |
+| Overleaf package | DONE. `report/ieee_report_overleaf.zip`, contains `main.tex` plus 3 figures |
+| Overleaf compile | **NOT VERIFIED.** No LaTeX installed locally, so this was never actually run |
+| Code repo `llm-budget-forcing` | **STILL PRIVATE.** Returns HTTP 404 to anyone not signed in as me |
+| Public showcase repo | LIVE, verified HTTP 200 |
+| GitHub Pages explorer | LIVE, verified HTTP 200 |
+| Bengali viva Q and A | DONE. `report/Viva_QA_Bengali.docx`, 7 pages |
+| One page PDFs, summary figure | DONE |
+| Live Gradio demo | HALF BUILT, NEVER VERIFIED end to end |
+| Phase 10, 32K plus forcing | NOT RUN. Optional |
+| Forced pass@4 | NOT MEASURED. The report says so explicitly |
+
+### The two things blocking submission
+
+**1. Make `llm-budget-forcing` public.** The URL is printed on page 1 of the
+report, in the footnote under my name, and again in the Code and Data
+Availability section. Checked on 27 August: it returns HTTP 404 to a logged out
+visitor, which is what my examiner will see. Fix at
+`https://github.com/abuahmad369/llm-budget-forcing/settings`, scroll to Danger
+Zone, Change visibility, Make public. If I decide to keep it private instead,
+both mentions in the report must be rewritten to point only at the public
+showcase repo, which already holds the result files, the figures and all 120
+traces.
+
+**2. Compile the report in Overleaf.** Upload
+`report/ieee_report_overleaf.zip` through New Project, Upload Project, then
+compile **twice** with pdfLaTeX so the table and figure references resolve. The
+structure was checked without compiling: 36 environments open and close, both
+`\url` calls inside `\thanks` are `\protect`ed, all 10 references are cited in
+the body, and zero writing slots remain. An actual compile has never run.
+
+### Academic honesty, resolved 27 August
+
+History, because it matters for anyone picking this up. On 24 August I asked
+whether a report could be written to evade the Pangram AI detector. The
+assistant declined and kept declining, six times, and told me the one thing that
+would change the answer was to go and check what CSE 465 actually permits. On 27
+August I did. The answer from the faculty is that AI assistance in writing the
+report is allowed, and the requirement is that the writing reads naturally. On
+that basis the assistant wrote the full IEEE report prose.
+
+The research, the experiments and every number are mine. The report prose is AI
+written with my direction, under a course policy that permits it. If a future
+submission for a different course or venue has a different policy, that policy
+governs and this permission does not carry over. If the department later asks
+for a disclosure line, add one.
+
+### Report writing decisions, so a new session does not quietly undo them
+
+- **First person "I" throughout.** Suits a single author report. Swap to "we"
+  only if Dr. Nabeel Mohammed asks for it; it is a find and replace.
+- **No dash characters in the prose.** Not em dash, not en dash, not the plain
+  hyphen. Every hyphen surviving in `main_ieee.tex` is a proper noun
+  (VibeThinker-3B, DeepSeek-R1, Qwen2.5-Coder-3B, Self-Refine, Fei-Fei), a URL, a
+  minus sign inside an equation, or TikZ path syntax. The rule set is the `human`
+  skill at `~/.claude/skills/human`.
+- **No number that was never measured.** Forcing at 32K is marked `n/m`. Forced
+  pass@4 is named as uncomputed. Both 4K baselines, 27.5 and 30.0, are reported
+  together with the reason they differ.
+- **The retracted ceiling metric stays in the limitations.** Hiding a caught
+  error gains nothing and costs the one thing in the report that proves I checked
+  my own work.
+- **Forcing timings are labelled implementation bound**, not the intrinsic cost
+  of the method, because the wall clock time is prefill and the forcing step
+  itself generates about five tokens.
+- Five sentences state a judgement in first person. I have read them and I agree
+  with all five. They are in the Introduction, the Background, twice in the
+  Analysis, and in the evaluation practice subsection.
+
+### Five things a new session should NOT do
+
+1. Do not re-run finished experiments. Everything is logged.
+2. Do not reintroduce the retracted `captured` metric from
+   `src/phase11_upper_bounds.py`. That file carries a WARNING header.
+   `src/phase11b_ceiling.py` is the correct version.
+3. Do not plot the 4K forcing point as one series with 8K and 16K. Different runs.
+4. Do not write `\boxed{` into a Bash heredoc. Python reads `\b` as backspace and
+   the answer parser silently returns None, showing 0.0 percent accuracy
+   everywhere. This bug recurred five times. See HANDOFF section 7.
+5. Do not treat `report/main.tex` as current. It is the older NSU template
+   version and is superseded by `report/main_ieee.tex`.
 
 ---
 
@@ -165,6 +242,59 @@ and stronger than the raw 15% figure (which wrongly divides by all truncated sam
 > **Forcing recovers answers already latent in the trace. It cannot manufacture
 > reasoning that has not happened.**
 
+### Upper bounds (measured after 10 August, CPU only)
+
+Forced pass@1 against unforced pass@4, the accuracy an ideal selection method
+would reach if it always picked the right one of four samples:
+
+| Budget | Unforced pass@4 | Forced pass@1 |
+|---|---|---|
+| 4k | 40.0% | **40.8%** |
+| 8k | 53.3% | **55.8%** |
+| 16k | **73.3%** | 70.8% |
+
+Caveat that must travel with this table: it compares forced pass@1 against
+unforced pass@4. Forced pass@4 was never computed, so it shows that forcing one
+sample can beat selecting among four, not that forcing wins at equal sampling
+budget.
+
+### Extraction ceiling on the recoverable population
+
+| Budget | Truncated | Already correct | Rescuable | Has answer | False pos. | Ceiling | Rescued | Captured |
+|---|---|---|---|---|---|---|---|---|
+| 8k | 81 | 17 | 64 | 16 | 2 | 14 | 11 | **78.6%** |
+| 16k | 58 | 14 | 44 | 11 | 0 | 11 | 9 | **81.8%** |
+
+Wilson intervals roughly 52 to 92 and 52 to 95 percent, on populations of 14 and
+11, so read this as an order of magnitude and not a precise measurement. The
+false positive control ran 0 to 4.9 percent against a signal of 32 to 41 percent.
+
+**This metric was retracted once and recomputed.** The first version, in
+`src/phase11_upper_bounds.py`, divided rescued samples by a denominator that
+turned out to be the already correct set, making numerator and denominator
+disjoint. That file now carries a WARNING header.
+`src/phase11b_ceiling.py` is the correct version and produced the table above.
+Keep the retraction in the report limitations.
+
+### Where the headroom is not
+
+Only 16 of 64 rescuable traces at 8k, and 11 of 44 at 16k, mention the correct
+answer anywhere in their final fifth. Roughly three quarters of failures never
+derived the answer at all, so no extraction procedure could recover them. What is
+left to gain is in generating reasoning, not in reading it out.
+
+### Composition of the 120 samples
+
+| Condition | Correct | Wrong | No answer |
+|---|---|---|---|
+| 8k, no forcing | 56 | 0 | 64 |
+| 8k, forced | 67 | 53 | 0 |
+| 16k, no forcing | 76 | 0 | 44 |
+| 16k, forced | 85 | 33 | 2 |
+
+Across all 1,200 sample budget observations in the sweep, the model volunteered
+exactly **one** wrong answer. Under a budget it fails silently.
+
 ### Methodology validations (both passed)
 - **Truncation trick:** deriving an 8k condition from the first 8,192 tokens of a 16k run
   reproduced a genuine 8k run (55.8% vs 54.2% — within noise). Saved traces can therefore
@@ -191,28 +321,72 @@ Phase 10 (optional) would add ~4.8 hrs.
 
 ## 5. FILES
 
-### Critical — must not lose
+### Critical, must not lose
 | File | Where | Note |
 |---|---|---|
-| `phase7_traces.json` | 11.7 MB, downloaded to laptop | **8.9 GPU-hrs of work.** Regenerating costs 3.6 hrs. |
+| `results/phase7_traces.json` | 11.7 MB, in the repo | **The most expensive artifact.** 120 full traces, 3.6 GPU hours to regenerate |
 
-### Results data
-`phase5_baseline.json`/`.csv` · `phase6_forcing.json`/`.csv` · `phase6_analysis.json` ·
-`phase7_results.json`/`.csv` · `phase8_analysis.json` · `phase9_paired.json`
+### Lost, and it does not matter
+`phase5_baseline.json` and `phase6_forcing.json` were never downloaded off Kaggle
+and are almost certainly gone. That is roughly 11 GPU hours of raw output. Every
+derived number from them survives in `RESULTS.md`, in section 3 above and in the
+report, so nothing needs re-running. Recorded here so a future session does not
+go hunting for files that are not there.
 
-### Figures (rendered, ready for report)
+### Results data present in the repo
+Checked on 27 August, `results/` holds exactly these six files:
+`phase4_diagnosis.json` * `phase7_results.json` * `phase7_results.csv` *
+`phase7_traces.json` * `phase8_analysis.json` * `phase9_paired.json`
+
+The ceiling numbers in section 3 were computed on CPU by `src/phase11b_ceiling.py`
+and were never written to a results file. Re-run that script if the JSON is
+wanted; it costs no GPU time.
+
+### Source
+`src/common.py` holds the shared prompt builder, answer parser and the three
+forcing phrases. Every phase script imports from it, so a change cannot apply to
+one condition and not another. The forcing phrases are `FORCE_BARE` (V1),
+`FORCE_DEADLINE` (V3) and `FORCE_SUMMARIZE` (V2).
+
+Phase scripts: `phase5_baseline.py`, `phase6_budget_forcing.py`,
+`phase7_forcing_variants.py`, `phase8_analysis.py`, `phase9_paired.py`,
+`phase11_upper_bounds.py` (**retracted, has a WARNING header**),
+`phase11b_ceiling.py` (correct).
+
+### Report
+| File | State |
+|---|---|
+| `report/main_ieee.tex` | **THE ONE TO SUBMIT.** Full prose, 6,435 words, IEEE conference format |
+| `report/ieee_report_overleaf.zip` | Upload this to Overleaf. Holds `main.tex` plus 3 figures |
+| `report/WRITING_BRIEF.md` | Every measured number in one place, plus what must not be written |
+| `report/ieee_skeleton.tex` | The empty skeleton with 44 yellow writing boxes. Superseded |
+| `report/main.tex` | Older NSU template version. **Superseded, do not submit** |
+| `report/Viva_QA_Bengali.docx` | DONE, rewritten for this project, 7 pages |
+| `report/Result_Summary_OnePager.pdf`/`.docx` | Printable one page summary |
+| `report/Result_Tables_Print.pdf`/`.docx` | Tables only print sheet |
+
+### App and showcase
+| File | State |
+|---|---|
+| `app/index.html` | 594 KB self contained explorer, all 120 traces embedded, verified in browser |
+| `app/live_demo.py` | 622 lines, Gradio, 3 backends. **NEVER VERIFIED END TO END** |
+| `app/DEMO_GUIDE.md` | Smoke test is section 1.2 |
+| `app/KAGGLE_LAUNCH.md` | Launch steps. Problem numbering is 1 indexed, use #17 (answer 49) |
+| `app/build_data.py`, `template.html`, `make_summary_figure.py` | Build scripts for the explorer and figures |
+
+### Figures
 | File | Content |
 |---|---|
-| `fig3_main_result.png` | Accuracy vs budget, with/without forcing + 32k baseline |
-| `fig4_truncation.png` | **Best figure** — truncation rate vs accuracy, mirror image |
-| `fig5_lengths.png` | Length histogram, bimodal with wall at cap |
-| `fig1_accuracy_vs_budget.png`, `fig2_efficiency_frontier.png` | earlier versions |
+| `figures/fig3_main_result.png` | Accuracy against budget, with and without forcing |
+| `figures/fig4_truncation.png` | **Best figure.** Truncation rate against accuracy, mirror image |
+| `figures/fig5_lengths.png` | Length histogram. Caption must say right censored at 16,384 |
+| `figures/fig6_summary.png`, `fig6_summary_print.png` | Summary figure, wide and stacked |
+| `figures/fig1_*`, `fig2_*` | Earlier versions, not used in the report |
 
-### OBSOLETE — do not submit, written for the abandoned tool-calling plan
-`CSE465_Project_Report_VibeThinker_Agent.docx` · `Viva_QA_Bengali.docx` ·
-`COST_AND_RESOURCES.md`
+### Obsolete, written for the abandoned tool calling plan
+`CSE465_Project_Report_VibeThinker_Agent.docx` * `COST_AND_RESOURCES.md`
 
-Both the report and the Bengali viva Q&A must be **rewritten from scratch** for this project.
+The Bengali viva Q and A has since been rewritten and is no longer on this list.
 
 ---
 
@@ -347,21 +521,49 @@ resume each truncated trace with `prompt + existing_text`, `max_tokens = 32768 �
 
 ## 9. WHAT'S LEFT
 
-- [ ] *(optional)* Phase 10 — 32k extension, ~4.8 GPU-hrs
-- [ ] **Write the report** (KDD-style, matching arXiv:2606.10678 formatting)
-- [ ] **Rewrite `Viva_QA_Bengali.docx`** for this project — the existing one is obsolete
-- [ ] Redraw figures with the caption/title corrections from §6
+Nothing scientific. Two administrative items, then three optional extras.
 
-### Planned report structure
+**Blocking submission**
+- [ ] Make `llm-budget-forcing` public, or rewrite the two report links to point
+      at the public showcase repo instead
+- [ ] Compile `report/ieee_report_overleaf.zip` in Overleaf, twice, with pdfLaTeX
+
+**Optional, never run**
+- [ ] Phase 10, 32K plus forcing, about 4.8 GPU hours
+- [ ] Forced pass@4, about 1.3 GPU hours. Would make the oracle comparison in
+      Table VII like for like
+- [ ] Verify `app/live_demo.py` end to end. Four fixes have been written and none
+      exercised against a live engine. Smoke test is in `app/DEMO_GUIDE.md`
+      section 1.2
+
+**Done since 10 August, do not redo**
+- Full IEEE report prose written, `report/main_ieee.tex`, all 44 slots filled
+- `report/WRITING_BRIEF.md` created, every measured number in one place
+- Public showcase repo and GitHub Pages explorer, both live and verified
+- Interactive explorer with all 120 traces embedded, `app/index.html`
+- Bengali viva Q and A rewritten for this project
+- Figures redrawn with the caption corrections from section 6
+- One page result summary and a tables only print sheet, PDF and DOCX
+- Four bugs fixed in `app/live_demo.py`, none yet verified running
+
+### Report structure as actually written
+
+IEEE conference format, `IEEEtran` with the `conference` option, matching the
+faculty sample. The earlier plan to match the KDD style of arXiv:2606.10678 was
+dropped once the faculty template turned out to be IEEEtran.
+
 | Section | Content |
-|---|---|
-| Abstract | Truncation-not-capability finding + forcing result |
-| 1. Introduction | The 91.4 vs 80.8 puzzle; 4 contributions as bullets |
-| 2. Related Work | VibeThinker / test-time scaling / s1 budget forcing |
-| 3. Methodology | Budget forcing, 3 variants, the truncation-derivation trick |
-| 4. Experiments | The 5 findings, figures, significance tables |
-| 5. Discussion | Why forcing can't manufacture reasoning; limitations |
-| 6. Conclusion | |
+|:--|:--|
+| Abstract | Five points in plain prose, no symbols or maths per the IEEE rule |
+| I. Introduction | The 91.4 against 80.8 puzzle, the two competing hypotheses, five contributions |
+| II. Background and Literature Review | RL for verifiable reasoning, inference time scaling, budget forcing, the four gaps |
+| III. Proposed Methodology | Formulation with the two indicators, forcing, prefix consistency, McNemar, pipeline figure |
+| IV. Experiments | Model, dataset, T4 constraints, protocol, compute table, two harness validations |
+| V. Results | Termination against correctness, the budget curve, forcing effect, harm test, phrase variants, upper bounds |
+| VI. Analysis | Termination not capability, why forcing cannot harm, why phrasing does not matter, what it can and cannot recover, implications for evaluation |
+| VII. Conclusion | Plus limitations and future work |
+| Code and Data Availability | Both repo links and the Pages site |
+| References | 10 entries, every one cited in the body |
 
 ---
 
@@ -378,5 +580,7 @@ resume each truncated trace with `prompt + existing_text`, `max_tokens = 32768 �
 
 ---
 
-**Bottom line:** the science is done and the findings are solid. What remains is Phase 10
-(optional) and writing. Do not re-run finished experiments.
+**Bottom line:** the science is done, the findings are solid, and the report is
+written. What remains is making the code repo public and pressing compile in
+Overleaf. Do not re-run finished experiments and do not rewrite the report from
+scratch.
