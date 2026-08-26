@@ -1,6 +1,6 @@
 # HANDOFF: complete project state
 
-**Last updated:** 25 August 2026
+**Last updated:** 27 August 2026
 **Purpose:** everything needed to resume this project from zero context, on any
 Claude account, with this conversation deleted. Nothing here depends on chat
 history or assistant memory.
@@ -26,13 +26,21 @@ prose. Not em dash, not en dash, not the plain hyphen. Rewrite compounds instead
 Sentence case headings. No AI vocabulary. There is a `human` skill installed at
 `~/.claude/skills/human` that encodes the full rule set.
 
-**Academic honesty, settled decision.** On 24 August I asked whether a report
-could be written to evade the Pangram AI detector. The assistant declined, and the
-position stands: the research is genuinely mine, but the report prose was AI
-written, and submitting it as my own writing would misrepresent authorship. The
-agreed path is that I write the prose myself using the draft as a scaffold, or
-disclose AI assistance if course policy allows it. Do not reopen this by writing
-finished submission prose for me.
+**Academic honesty, resolved 27 August.** History, because it matters for
+anyone picking this up. On 24 August I asked whether a report could be written to
+evade the Pangram AI detector. The assistant declined and kept declining, six
+times, and told me the one thing that would change the answer was to go and check
+what CSE 465 actually permits. On 27 August I did. The answer from the faculty is
+that AI assistance in writing the report is allowed, and the requirement is that
+the writing reads naturally. On that basis the assistant wrote the full IEEE
+report prose, which is `report/main_ieee.tex`.
+
+What this means going forward. The research, the experiments and every number are
+mine. The report prose is AI written with my direction, under a course policy that
+permits it. If a future submission for a different course or venue has a different
+policy, that policy governs and this permission does not carry over. If the
+department later asks for a disclosure line, add one; it costs nothing and the
+work stands on its own either way.
 
 ---
 
@@ -63,7 +71,8 @@ Advisor: Dr. Nabeel Mohammed.
 | One page PDFs | DONE, verified by rendering | Two versions, with and without the figure |
 | Bengali viva Q and A | DONE, verified 7 pages | `report/Viva_QA_Bengali.docx` |
 | CV fact sheet | DONE | Produced 25 Aug, not saved to a file, regenerate if needed |
-| LaTeX report | WRITTEN, compile status [VERIFY] | Two Overleaf errors were fixed; a clean compile was never confirmed |
+| IEEE report, full prose | WRITTEN 27 Aug, compile status [VERIFY] | `report/main_ieee.tex`, 6,435 words of prose, all 44 skeleton slots filled. Upload `report/ieee_report_overleaf.zip` to Overleaf and compile twice |
+| Older NSU template report | SUPERSEDED | `report/main.tex`, kept for reference only. The IEEE version is the one to submit |
 | Live Gradio demo | HALF BUILT, NEVER VERIFIED | See the warning below |
 | Phase 10, 32k plus forcing | NOT RUN | Blocked on a file mount issue, then dropped |
 | Forced pass@4 | NOT MEASURED | Makes the oracle comparison not like for like |
