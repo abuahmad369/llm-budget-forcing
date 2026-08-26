@@ -1,5 +1,11 @@
 # CSE465 Project — VibeThinker-3B Budget Forcing Study
 
+> **SUPERSEDED IN PART.** This file was last fully updated on 10 August 2026 and
+> covers the experiment phases only. Everything after that (report, applications,
+> public showcase, bug fixes, current status) is in **[HANDOFF.md](HANDOFF.md)**.
+> Read HANDOFF.md first. Where the two disagree, HANDOFF.md is newer.
+
+
 **Last updated:** August 10, 2026
 **Deadline:** August 22, 2026 (~12 days left)
 **Status:** Experiments essentially complete. Phase 10 (optional) is blocked on a Kaggle file-mount issue.
