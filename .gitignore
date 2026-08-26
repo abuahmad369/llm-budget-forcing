@@ -30,3 +30,4 @@ app/__pycache__/
 
 # overleaf upload bundles, rebuild from the tex + figures
 report/skeleton_overleaf.zip
+report/ieee_overleaf.zip
