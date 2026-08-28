@@ -73,22 +73,37 @@ Advisor: Dr. Nabeel Mohammed.
 | CV fact sheet | DONE | Produced 25 Aug, not saved to a file, regenerate if needed |
 | IEEE report, full prose | WRITTEN 27 Aug, compile status [VERIFY] | `report/main_ieee.tex`, 6,435 words of prose, all 44 skeleton slots filled. Upload `report/ieee_report_overleaf.zip` to Overleaf and compile twice |
 | Older NSU template report | SUPERSEDED | `report/main.tex`, kept for reference only. The IEEE version is the one to submit |
-| Live Gradio demo | HALF BUILT, NEVER VERIFIED | See the warning below |
+| Live Gradio demo | **WORKS.** Verified 24 Aug on a T4 | `notebooks/live_demo.ipynb` is the run record. See below |
 | Phase 10, 32k plus forcing | NOT RUN | Blocked on a file mount issue, then dropped |
 | Forced pass@4 | NOT MEASURED | Makes the oracle comparison not like for like |
 
-### The live demo is not verified
+### The live demo works, corrected 28 August
 
-`app/live_demo.py` has never completed a successful end to end run. The one launch
-attempt on Kaggle died on a GPU out of memory error caused by running the launch
-cell twice in one kernel. Three bugs were then found by code review and fixed
-(budget slider not clamped to engine capacity, truncation misdetected on the
-transformers backend, no lock around concurrent generation), plus a fourth fix so
-it fails fast when the GPU is already occupied. None of those fixes have been
-exercised against a live engine.
+This section previously said the demo had never completed a successful run. That
+was true when it was written and is now wrong. The Kaggle notebook was recovered
+on 28 August and is saved as `notebooks/live_demo.ipynb`. Its output cells show a
+full working session on 24 August:
 
-**Before relying on it for a demo, run the six check smoke test in
-`app/DEMO_GUIDE.md` section 1.2.**
+- vLLM loaded VibeThinker-3B on a Tesla T4, float16, TRITON_ATTN backend, 18,432
+  token context, 168,832 tokens of KV cache
+- AIME 2025 loaded, 30 problems
+- Gradio served on a public URL
+- **36 generation calls, zero tracebacks, zero out of memory errors**
+
+The alternating pattern in the output is the method working. A long generation at
+roughly 60 tokens per second, then an instant call with very high input
+throughput and about five output tokens, which is the forcing step re reading the
+stored prefix and being made to commit.
+
+The four fixes made by code review (budget slider clamped to engine capacity,
+truncation detection on the transformers backend, a lock around concurrent
+generation, and failing fast when the GPU is already occupied) were therefore
+exercised against a live engine after all.
+
+Still not done formally: the six check smoke test in `app/DEMO_GUIDE.md` section
+1.2. What is proven is that the app launches, serves, generates and forces
+without crashing. Whether every individual check in that list passes was never
+recorded.
 
 ---
 

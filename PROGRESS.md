@@ -36,9 +36,10 @@ in them needs redoing.
 | Code repo `llm-budget-forcing` | **STILL PRIVATE.** Returns HTTP 404 to anyone not signed in as me |
 | Public showcase repo | LIVE, verified HTTP 200 |
 | GitHub Pages explorer | LIVE, verified HTTP 200 |
+| Kaggle notebooks | RECOVERED 28 Aug for phases 7 to 9, 11, and the demo. Phases 5 and 6 not recovered. See `notebooks/README.md` |
 | Bengali viva Q and A | DONE. `report/Viva_QA_Bengali.docx`, 7 pages |
 | One page PDFs, summary figure | DONE |
-| Live Gradio demo | HALF BUILT, NEVER VERIFIED end to end |
+| Live Gradio demo | **WORKS.** Verified 24 Aug on a T4, 36 generation calls, no errors. Record in `notebooks/live_demo.ipynb` |
 | Phase 10, 32K plus forcing | NOT RUN. Optional |
 | Forced pass@4 | NOT MEASURED. The report says so explicitly |
 
@@ -369,7 +370,7 @@ Phase scripts: `phase5_baseline.py`, `phase6_budget_forcing.py`,
 | File | State |
 |---|---|
 | `app/index.html` | 594 KB self contained explorer, all 120 traces embedded, verified in browser |
-| `app/live_demo.py` | 622 lines, Gradio, 3 backends. **NEVER VERIFIED END TO END** |
+| `app/live_demo.py` | 622 lines, Gradio, 3 backends. **VERIFIED WORKING** 24 Aug. Run record in `notebooks/live_demo.ipynb` |
 | `app/DEMO_GUIDE.md` | Smoke test is section 1.2 |
 | `app/KAGGLE_LAUNCH.md` | Launch steps. Problem numbering is 1 indexed, use #17 (answer 49) |
 | `app/build_data.py`, `template.html`, `make_summary_figure.py` | Build scripts for the explorer and figures |
@@ -532,9 +533,9 @@ Nothing scientific. Two administrative items, then three optional extras.
 - [ ] Phase 10, 32K plus forcing, about 4.8 GPU hours
 - [ ] Forced pass@4, about 1.3 GPU hours. Would make the oracle comparison in
       Table VII like for like
-- [ ] Verify `app/live_demo.py` end to end. Four fixes have been written and none
-      exercised against a live engine. Smoke test is in `app/DEMO_GUIDE.md`
-      section 1.2
+- [ ] Run the six check smoke test in `app/DEMO_GUIDE.md` section 1.2. The demo
+      itself is proven working, see `notebooks/live_demo.ipynb`, but the formal
+      checklist was never ticked off one by one
 
 **Done since 10 August, do not redo**
 - Full IEEE report prose written, `report/main_ieee.tex`, all 44 slots filled
