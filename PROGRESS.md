@@ -37,7 +37,7 @@ in them needs redoing.
 | Public showcase repo | LIVE, verified HTTP 200 |
 | GitHub Pages explorer | LIVE, verified HTTP 200 |
 | Kaggle notebooks | RECOVERED 28 Aug for phases 7 to 9, 11, and the demo. Phases 5 and 6 not recovered. See `notebooks/README.md` |
-| Bengali viva Q and A | DONE. `report/Viva_QA_Bengali.docx`, 7 pages |
+| Bengali viva Q and A | DONE, 7 pages. Local only at `report/Viva_QA_Bengali.docx`, untracked on purpose |
 | One page PDFs, summary figure | DONE |
 | Live Gradio demo | **WORKS.** Verified 24 Aug on a T4, 36 generation calls, no errors. Record in `notebooks/live_demo.ipynb` |
 | Phase 10, 32K plus forcing | NOT RUN. Optional |
@@ -362,7 +362,7 @@ Phase scripts: `phase5_baseline.py`, `phase6_budget_forcing.py`,
 | `report/WRITING_BRIEF.md` | Every measured number in one place, plus what must not be written |
 | `report/ieee_skeleton.tex` | The empty skeleton with 44 yellow writing boxes. Superseded |
 | `report/main.tex` | Older NSU template version. **Superseded, do not submit** |
-| `report/Viva_QA_Bengali.docx` | DONE, rewritten for this project, 7 pages |
+| `report/Viva_QA_Bengali.docx` | DONE, rewritten for this project, 7 pages. **Untracked**, gitignored, exists on the laptop only |
 | `report/Result_Summary_OnePager.pdf`/`.docx` | Printable one page summary |
 | `report/Result_Tables_Print.pdf`/`.docx` | Tables only print sheet |
 

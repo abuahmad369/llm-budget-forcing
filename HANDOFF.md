@@ -69,7 +69,7 @@ Advisor: Dr. Nabeel Mohammed.
 | Interactive explorer HTML | DONE, verified in browser | No console errors, 3 theme states checked |
 | Summary figure | DONE | Two layouts, wide and stacked |
 | One page PDFs | DONE, verified by rendering | Two versions, with and without the figure |
-| Bengali viva Q and A | DONE, verified 7 pages | `report/Viva_QA_Bengali.docx` |
+| Bengali viva Q and A | DONE, verified 7 pages | Local only at `report/Viva_QA_Bengali.docx`, deliberately not in the repo |
 | CV fact sheet | DONE | Produced 25 Aug, not saved to a file, regenerate if needed |
 | IEEE report, full prose | WRITTEN 27 Aug, compile status [VERIFY] | `report/main_ieee.tex`, 6,435 words of prose, all 44 skeleton slots filled. Upload `report/ieee_report_overleaf.zip` to Overleaf and compile twice |
 | Older NSU template report | SUPERSEDED | `report/main.tex`, kept for reference only. The IEEE version is the one to submit |
